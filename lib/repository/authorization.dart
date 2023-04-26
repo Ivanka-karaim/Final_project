@@ -1,0 +1,58 @@
+import 'dart:convert';
+
+import 'package:final_project/data/constants.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/ticket.dart';
+import '../models/user.dart';
+
+class AuthorizationRepository {
+  Future<String> authorization(String phoneNumber) async {
+    final otp = await http.post(Uri.parse('$URL_API/api/auth/otp'),
+        body: {"phoneNumber": phoneNumber});
+
+    final login = await http.post(Uri.parse('$URL_API/api/auth/login'),
+        body: {"phoneNumber": phoneNumber, "otp": "0000"});
+    String accessToken = jsonDecode(login.body)["data"]["accessToken"];
+    return accessToken;
+  }
+
+  Future<void> getUser(String accessToken) async {
+    final response = await http.get(
+      Uri.parse('$URL_API/api/user'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+    final user = User.fromJson(jsonDecode(response.body)["data"] as Map<String, dynamic>);
+    print(user);
+  }
+
+  Future<void> changeUser(Map<String, Object> json, String accessToken) async {
+    final response = await http.post(
+      Uri.parse('$URL_API/api/user'),
+      body: json,
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    final user = User.fromJson(jsonDecode(response.body)["data"]);
+    print(user);
+  }
+
+  Future<void> getUserTickets(String accessToken) async {
+    List<Ticket> tickets = [];
+    final response = await http.get(
+      Uri.parse('$URL_API/api/user/tickets'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+    for (int i = 0; i < jsonDecode(response.body)["data"].length; i++) {
+      final ticket = Ticket.fromJson(jsonDecode(response.body)["data"][i]);
+      tickets.add(ticket);
+    }
+    print(tickets);
+  }
+}
