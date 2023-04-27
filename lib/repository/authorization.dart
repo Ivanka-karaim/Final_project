@@ -10,14 +10,13 @@ class AuthorizationRepository {
   Future<String> authorization(String phoneNumber) async {
     final otp = await http.post(Uri.parse('$URL_API/api/auth/otp'),
         body: {"phoneNumber": phoneNumber});
-
     final login = await http.post(Uri.parse('$URL_API/api/auth/login'),
         body: {"phoneNumber": phoneNumber, "otp": "0000"});
     String accessToken = jsonDecode(login.body)["data"]["accessToken"];
     return accessToken;
   }
 
-  Future<void> getUser(String accessToken) async {
+  Future<User> getUser(String accessToken) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/user'),
       headers: {
@@ -26,9 +25,10 @@ class AuthorizationRepository {
     );
     final user = User.fromJson(jsonDecode(response.body)["data"] as Map<String, dynamic>);
     print(user);
+    return user;
   }
 
-  Future<void> changeUser(Map<String, Object> json, String accessToken) async {
+  Future<User> changeUser(Map<String, Object> json, String accessToken) async {
     final response = await http.post(
       Uri.parse('$URL_API/api/user'),
       body: json,
@@ -39,9 +39,10 @@ class AuthorizationRepository {
 
     final user = User.fromJson(jsonDecode(response.body)["data"]);
     print(user);
+    return user;
   }
 
-  Future<void> getUserTickets(String accessToken) async {
+  Future<List<Ticket>> getUserTickets(String accessToken) async {
     List<Ticket> tickets = [];
     final response = await http.get(
       Uri.parse('$URL_API/api/user/tickets'),
@@ -54,5 +55,6 @@ class AuthorizationRepository {
       tickets.add(ticket);
     }
     print(tickets);
+    return tickets;
   }
 }

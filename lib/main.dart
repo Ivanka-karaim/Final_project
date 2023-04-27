@@ -32,11 +32,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  static String accessToken = '';
+
   Future<void> _incrementCounter() async {
     AuthorizationRepository auth = AuthorizationRepository();
-    String accessToken = await auth.authorization("+380667236485");
+    if (accessToken == '') {
+      String response = await auth.authorization("+380667236485");
+      setState(() {
+        accessToken = response;
+      });
+    }
     await auth.getUser(accessToken);
-    await auth.changeUser({"name":"Ivanna"}, accessToken);
+    await auth.changeUser({"name": "Ivanna"}, accessToken);
     await auth.getUserTickets(accessToken);
     setState(() {
       _counter++;
@@ -45,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
