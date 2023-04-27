@@ -1,6 +1,8 @@
 import 'package:final_project/widgets/login/phone_number_input.dart';
 import 'package:flutter/material.dart';
 
+import '../logo.dart';
+
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({super.key});
 
@@ -14,27 +16,37 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Введіть номер телефону',
-              style: TextStyle(color: Colors.grey, fontSize: 20),
+            const Logo(
+              width: 150,
             ),
-            SizedBox(height: 20),
+            const SizedBox(
+              height: 75,
+            ),
+            const Text(
+              'Введіть номер телефону',
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            const SizedBox(height: 20,),
             PhoneNumberInput(
               phoneNumberController: _phoneNumberController,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0,),
             ElevatedButton(
               onPressed: () {
                 _submitForm();
               },
-              child: Text('Submit'),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.deepPurple)),
+              child: const Text('Надіслати'),
             ),
+            const SizedBox(height: 150)
           ],
         ),
       ),

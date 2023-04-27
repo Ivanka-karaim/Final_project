@@ -20,28 +20,34 @@ class PhoneNumberInput extends StatelessWidget {
     return Container(
       width: 300,
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: Colors.grey[900],
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
 
         controller: phoneNumberController,
         keyboardType: TextInputType.phone,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
         ),
         decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.deepPurple),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.deepPurple),
+          ),
           hintText: '+380000000000',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.grey,
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
-          ),
+
           filled: true,
           fillColor: Colors.black,
-          contentPadding: EdgeInsets.symmetric(
+
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 10,
           ),
