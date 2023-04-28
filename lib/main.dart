@@ -1,24 +1,44 @@
+
+import 'package:final_project/bloc/auth/auth_state.dart';
+import 'package:final_project/datasource/token_local_data_source.dart';
 import 'package:final_project/repository/authorization.dart';
 import 'package:final_project/widgets/login/login.dart';
+import 'package:final_project/widgets/login/login_screen.dart';
+import 'package:final_project/widgets/movies/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/auth/auth_bloc.dart';
+import 'bloc/auth/auth_event.dart';
+import 'bloc/sign_in/sign_in_bloc.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late AuthBloc authBloc;
+
+  @override
+  void initState() {
+
+    authBloc = AuthBloc();
+    authBloc.add(CheckUserEvent());
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const LoginFormWidget(),
-    );
+    return BlocConsumer(bloc: authBloc,builder:
+    (context, state){
+      return state is AuthSuccessful ? MoviePage():LoginScreen();
+    }, listener: (context, state){});
   }
 }
 

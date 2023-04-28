@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 
-// class PhoneNumberInput extends StatefulWidget {
-//
-//   const PhoneNumberInput({super.key});
-//
-//   @override
-//   State<PhoneNumberInput> createState() => _PhoneNumberInputState();
-// }
+class Input extends StatelessWidget {
+  final TextEditingController controller;
+  final String hint;
 
-class PhoneNumberInput extends StatelessWidget {
-  final TextEditingController phoneNumberController;
-
-  const PhoneNumberInput({super.key, required this.phoneNumberController});
+  const Input({super.key, required this.hint, required this.controller});
 
 
 
@@ -25,7 +18,7 @@ class PhoneNumberInput extends StatelessWidget {
       ),
       child: TextFormField(
 
-        controller: phoneNumberController,
+        controller: controller,
         keyboardType: TextInputType.phone,
         style: const TextStyle(
           color: Colors.white,
@@ -39,7 +32,7 @@ class PhoneNumberInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.deepPurple),
           ),
-          hintText: '+380000000000',
+          hintText: hint,
           hintStyle: const TextStyle(
             color: Colors.grey,
           ),

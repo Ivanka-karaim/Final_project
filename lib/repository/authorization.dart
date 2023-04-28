@@ -7,13 +7,19 @@ import '../models/ticket.dart';
 import '../models/user.dart';
 
 class AuthorizationRepository {
-  Future<String> authorization(String phoneNumber) async {
-    final otp = await http.post(Uri.parse('$URL_API/api/auth/otp'),
+  Future<dynamic> authorization(String? phoneNumber) async {
+    final login = await http.post(Uri.parse('$URL_API/api/auth/otp'),
         body: {"phoneNumber": phoneNumber});
+    // final login = await http.post(Uri.parse('$URL_API/api/auth/login'),
+    //     body: {"phoneNumber": phoneNumber, "otp": "0000"});
+
+    return jsonDecode(login.body);
+  }
+
+  Future<dynamic> otpAuthorization(String? phoneNumber, String? otp) async{
     final login = await http.post(Uri.parse('$URL_API/api/auth/login'),
-        body: {"phoneNumber": phoneNumber, "otp": "0000"});
-    String accessToken = jsonDecode(login.body)["data"]["accessToken"];
-    return accessToken;
+        body: {"phoneNumber": phoneNumber, "otp": otp});
+    return jsonDecode(login.body);
   }
 
   Future<User> getUser(String accessToken) async {

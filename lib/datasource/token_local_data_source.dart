@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class TokenLocalDatasource {
@@ -5,18 +6,26 @@ abstract class TokenLocalDatasource {
   Future<bool> deleteToken();
   Future<String?> getToken();
   Future init();
+
 }
 
-class TokenLocalDatasourceImpl extends TokenLocalDatasource {
-  @override
-  Future init() async {
-    sharedPreferences = await SharedPreferences.getInstance();
+class  TokenLocalDatasourceImpl extends TokenLocalDatasource {
+
+  TokenLocalDatasourceImpl(){
+      init();
+
   }
 
   late final SharedPreferences sharedPreferences;
 
   @override
+  Future init() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+  }
+
+  @override
   Future<bool> saveToken(String jwt) async {
+
     await sharedPreferences.setString("Authorization", jwt);
     return true;
   }
@@ -32,4 +41,6 @@ class TokenLocalDatasourceImpl extends TokenLocalDatasource {
     await sharedPreferences.remove("Authorization");
     return true;
   }
+
+
 }
