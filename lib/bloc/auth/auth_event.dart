@@ -13,3 +13,5 @@ class SaveUserEvent extends AuthEvent{
 class CheckUserEvent extends AuthEvent{
 
 }
+
+class RemoveUserEvent extends AuthEvent{}

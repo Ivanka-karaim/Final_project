@@ -1,44 +1,62 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class TokenLocalDatasource {
   Future<bool> saveToken(String jwt);
   Future<bool> deleteToken();
   Future<String?> getToken();
-  Future init();
+  // Future init();
 
 }
+class Singleton {
+  static final Singleton _singleton = Singleton._internal();
 
+  factory Singleton() {
+    return _singleton;
+  }
+
+  Singleton._internal();
+}
 class  TokenLocalDatasourceImpl extends TokenLocalDatasource {
+  static final TokenLocalDatasourceImpl _singleton = TokenLocalDatasourceImpl._internal();
 
-  TokenLocalDatasourceImpl(){
-      init();
+  TokenLocalDatasourceImpl._internal();
 
+
+  factory TokenLocalDatasourceImpl(){
+    return _singleton;
   }
 
-  late final SharedPreferences sharedPreferences;
+  late final Future<SharedPreferences> sharedPreferences = SharedPreferences.getInstance();
 
-  @override
-  Future init() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
+  // @override
+  // Future init() async {
+  //   print(1111);
+  //   if (sharedPreferences == null ) {
+  //     sharedPreferences = await SharedPreferences.getInstance();
+  //     print(222);
+  //   }
+  // }
 
   @override
   Future<bool> saveToken(String jwt) async {
 
-    await sharedPreferences.setString("Authorization", jwt);
+    // await sharedPreferences.setString("Authorization", jwt);
+    sharedPreferences.then((value) => value.setString("Authorization", jwt));
+    // f.then((v)=>print(v));
     return true;
   }
 
   @override
   Future<String?> getToken() async {
-    final jwt = sharedPreferences.getString("Authorization");
+    final jwt = sharedPreferences.then((value) => value.getString("Authorization"));
+    // final jwt = sharedPreferences.getString("Authorization");
     return jwt;
   }
 
   @override
   Future<bool> deleteToken() async {
-    await sharedPreferences.remove("Authorization");
+    sharedPreferences.then((value) => value.remove("Authorization"));
     return true;
   }
 

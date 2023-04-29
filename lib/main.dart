@@ -2,6 +2,7 @@
 import 'package:final_project/bloc/auth/auth_state.dart';
 import 'package:final_project/datasource/token_local_data_source.dart';
 import 'package:final_project/repository/authorization.dart';
+
 import 'package:final_project/widgets/login/login.dart';
 import 'package:final_project/widgets/login/login_screen.dart';
 import 'package:final_project/widgets/movies/movie.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/auth/auth_event.dart';
 import 'bloc/sign_in/sign_in_bloc.dart';
+import 'package:get_it/get_it.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -26,18 +29,24 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late AuthBloc authBloc;
 
+  Future checkIfAuthorized() async{
+    TokenLocalDatasourceImpl();
+    authBloc.add(CheckUserEvent());
+  }
+
   @override
   void initState() {
-
+    // TokenLocalDatasourceImpl();
     authBloc = AuthBloc();
     authBloc.add(CheckUserEvent());
+    // checkIfAuthorized();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(bloc: authBloc,builder:
     (context, state){
-      return state is AuthSuccessful ? MoviePage():LoginScreen();
+      return state is AuthSuccessful ? MoviePage(authBloc: authBloc,):LoginScreen();
     }, listener: (context, state){});
   }
 }
