@@ -2,6 +2,7 @@
 import 'package:final_project/bloc/auth/auth_state.dart';
 import 'package:final_project/datasource/token_local_data_source.dart';
 import 'package:final_project/repository/authorization.dart';
+import 'package:final_project/widgets/home/home.dart';
 
 import 'package:final_project/widgets/login/login.dart';
 import 'package:final_project/widgets/login/login_screen.dart';
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return BlocConsumer(bloc: authBloc,builder:
     (context, state){
-      return state is AuthSuccessful ? MoviePage(authBloc: authBloc,):LoginScreen();
+      return state is AuthSuccessful ? HomePage(authBloc: authBloc,):LoginScreen();
     }, listener: (context, state){});
   }
 }

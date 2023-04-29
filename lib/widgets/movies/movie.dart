@@ -9,15 +9,14 @@ class MoviePage extends StatelessWidget {
   const MoviePage({super.key, required this.authBloc});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home:Scaffold(
+    return Scaffold(
       body:Center(
         child: Column(
           children: [Text('films'),
           TextButton(onPressed: (){authBloc.add(RemoveUserEvent());}, child: Text('ВИдалити користувача'))],
         )
       )
-    ), );
+    );
   }
 
 }
