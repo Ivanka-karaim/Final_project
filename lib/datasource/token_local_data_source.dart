@@ -40,10 +40,7 @@ class  TokenLocalDatasourceImpl extends TokenLocalDatasource {
 
   @override
   Future<bool> saveToken(String jwt) async {
-
-    // await sharedPreferences.setString("Authorization", jwt);
     sharedPreferences.then((value) => value.setString("Authorization", jwt));
-    // f.then((v)=>print(v));
     return true;
   }
 

@@ -22,16 +22,15 @@ class AuthorizationRepository {
     return jsonDecode(login.body);
   }
 
-  Future<User> getUser(String accessToken) async {
+  Future<dynamic> getUser(String accessToken) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/user'),
       headers: {
         'Authorization': 'Bearer $accessToken',
       },
     );
-    final user = User.fromJson(jsonDecode(response.body)["data"] as Map<String, dynamic>);
-    print(user);
-    return user;
+    return jsonDecode(response.body);
+
   }
 
   Future<User> changeUser(Map<String, Object> json, String accessToken) async {
@@ -48,19 +47,20 @@ class AuthorizationRepository {
     return user;
   }
 
-  Future<List<Ticket>> getUserTickets(String accessToken) async {
-    List<Ticket> tickets = [];
+  Future<dynamic> getUserTickets(String accessToken) async {
+
     final response = await http.get(
       Uri.parse('$URL_API/api/user/tickets'),
       headers: {
         'Authorization': 'Bearer $accessToken',
       },
     );
-    for (int i = 0; i < jsonDecode(response.body)["data"].length; i++) {
-      final ticket = Ticket.fromJson(jsonDecode(response.body)["data"][i]);
-      tickets.add(ticket);
-    }
-    print(tickets);
-    return tickets;
+    return jsonDecode(response.body);
+    // for (int i = 0; i < jsonDecode(response.body)["data"].length; i++) {
+    //   final ticket = Ticket.fromJson(jsonDecode(response.body)["data"][i]);
+    //   tickets.add(ticket);
+    // }
+    // print(tickets);
+    // return tickets;
   }
 }

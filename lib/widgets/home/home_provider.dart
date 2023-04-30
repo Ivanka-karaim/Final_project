@@ -1,6 +1,7 @@
 import 'package:final_project/bloc/home/home_bloc.dart';
 import 'package:final_project/widgets/home/home_drawer.dart';
 import 'package:final_project/widgets/movies/movie.dart';
+import 'package:final_project/widgets/profile/profile_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/home/home_state.dart';
 import '../app_bar.dart';
+import '../profile/profile.dart';
 
 
 class HomeProvider extends StatefulWidget {
@@ -21,9 +23,11 @@ class HomeProvider extends StatefulWidget {
 class _HomeProviderState extends State<HomeProvider> {
   late final HomeBloc homeBloc;
 
+
   @override
   void initState(){
     homeBloc = HomeBloc();
+
     super.initState();
   }
 
@@ -31,7 +35,12 @@ class _HomeProviderState extends State<HomeProvider> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BlocBuilder<HomeBloc, HomeState>(
+      home: BlocConsumer<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeResultState){
+
+            }
+          },
           builder: (context, state) {
             return Scaffold(
               drawer: HomeDrawer(homeBloc: homeBloc,),
@@ -43,6 +52,7 @@ class _HomeProviderState extends State<HomeProvider> {
                   index: state.cIndex,
                   children:  [
                     MoviePage(authBloc: widget.authBloc),
+                    ProfileNavigator(authBloc: widget.authBloc),
                   ],
                 ),
               ),

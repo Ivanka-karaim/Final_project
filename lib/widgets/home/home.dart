@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/home/home_state.dart';
+import '../../bloc/profile/profile_bloc.dart';
 
 
 

@@ -2,6 +2,7 @@
 import 'package:final_project/bloc/home/home_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/home/home_bloc.dart';
 
@@ -42,16 +43,19 @@ class HomeDrawer extends StatelessWidget{
             ),
           ),
           ListTile(
-            title: const Text('Фільми'),
+            title: const Text('Фільми', style: TextStyle()),
             onTap: () {
-              homeBloc.add(ChangeEvent(cIndex: 0));
-
+              HomeBloc bloc = context.read<HomeBloc>();
+              bloc.add(ChangeEvent(cIndex: 0));
+              Navigator.pop(context);
             },
           ),
           ListTile(
             title: const Text('Профіль'),
             onTap: () {
-              homeBloc.add(ChangeEvent(cIndex: 1));
+              HomeBloc bloc = context.read<HomeBloc>();
+              bloc.add(ChangeEvent(cIndex: 1));
+              Navigator.pop(context);
             },
           ),
 
