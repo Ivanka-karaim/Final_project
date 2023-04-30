@@ -8,7 +8,7 @@ import '../data/constants.dart';
 import 'authorization.dart';
 
 class MovieRepository {
-  Future<List<Movie>> getAllMoviesDate(String accessToken, String date) async {
+  Future<dynamic> getAllMoviesDate(String accessToken, String date) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/movies?date=$date'),
       headers: {
@@ -16,14 +16,10 @@ class MovieRepository {
       },
     );
     // print(response.body);
-    final moviesApi = jsonDecode(response.body)["data"];
-    List<Movie> movies = [];
-    for (int i = 0; i < moviesApi.length; i++) {
-      movies.add(Movie.fromJson(moviesApi[i]));
-    }
-    print(jsonDecode(response.body)["data"].length);
+
+    // print(jsonDecode(response.body)["data"].length);
     // print(movies);
-    return movies;
+    return jsonDecode(response.body);
   }
 
   Future<List<Movie>> getAllMoviesDateSearch(String accessToken, String date,

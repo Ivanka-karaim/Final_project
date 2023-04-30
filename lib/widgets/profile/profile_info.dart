@@ -28,13 +28,7 @@ class ProfileInformationPage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () async {
-                  ProfileBloc bloc = context.read<ProfileBloc>();
-                  profileBloc.add(GetUserTicketsEvent());
-                  bloc.add(GetUserTicketsEvent());
-                  print(profileBloc.state);
-                  print(bloc.state);
-                  if (bloc.state is ProfileInformationTickets) print(1111122);
-                  Navigator.pushNamed(context, '/tickets', arguments:profileBloc.state);
+                  Navigator.pushNamed(context, '/tickets', );
                   // Navigator.pop(context);
                 },
                 child: Text('Переглянути куплені квитки')),
