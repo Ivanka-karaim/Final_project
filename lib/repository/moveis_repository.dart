@@ -80,7 +80,7 @@ class MovieRepository {
     return jsonDecode(response.body);
   }
 
-  Future<Session> getSession(String accessToken, int id) async {
+  Future<dynamic> getSession(String accessToken, int id) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/movies/sessions/$id'),
       headers: {
@@ -88,7 +88,7 @@ class MovieRepository {
       },
     );
 
-    return Session.fromJson(jsonDecode(response.body)["data"]);
+    return jsonDecode(response.body);
   }
 
   Future<dynamic> bookSeatsForMovie(

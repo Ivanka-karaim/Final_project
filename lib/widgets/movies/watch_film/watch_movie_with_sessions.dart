@@ -11,8 +11,11 @@ import '../../../models/movie.dart';
 
 class WatchMovieWithSessions extends StatefulWidget{
   final AuthBloc authBloc;
+  final Movie movie;
+  final DateTime date;
 
-  const WatchMovieWithSessions({super.key, required this.authBloc});
+
+  const WatchMovieWithSessions({super.key, required this.authBloc, required this.movie, required this.date});
 
   @override
   State<WatchMovieWithSessions> createState() => _WatchMovieWithSessionsState();
@@ -20,8 +23,7 @@ class WatchMovieWithSessions extends StatefulWidget{
 
 class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
   late final MovieBloc movieBloc;
-  late final Movie movie;
-  late final DateTime date;
+
 
   // @override
   // void initState() {
@@ -39,15 +41,7 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
   void _updateMyInheritedValue() {
     setState(() {
       movieBloc = MovieBloc();
-      final Map<String, dynamic> arguments = ModalRoute
-          .of(context)!
-          .settings
-          .arguments as Map<String, dynamic>;
-      movie = arguments['movie'];
-      // final bloc = arguments['bloc'] as MovieBloc;
-      date = arguments['date'];
-
-      movieBloc.add(GetMovieWithSessions(date: date, movie: movie));
+      movieBloc.add(GetMovieWithSessions(date: widget.date, movie: widget.movie));
     });
   }
 
@@ -60,12 +54,12 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
       Column(
         children: [
           Container(
-            child: Text('${movie.name}'),),
+            child: Text('${widget.movie.name}'),),
           for(int i =0; i<state.sessions.length; i++)
             TextButton(onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SessionPage(session: state.sessions[i])),
+                MaterialPageRoute(builder: (context) => SessionPage(session: state.sessions[i],)),
               );
             }, child: Text('${state.sessions[i].id}'))
         ],

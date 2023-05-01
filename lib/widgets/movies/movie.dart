@@ -2,6 +2,7 @@ import 'package:final_project/bloc/movie/movie_event.dart';
 import 'package:final_project/bloc/movie/movie_state.dart';
 import 'package:final_project/widgets/movies/watch_film/date.dart';
 import 'package:final_project/widgets/movies/watch_film/movie_one_part.dart';
+import 'package:final_project/widgets/movies/watch_film/watch_movie_with_sessions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,7 +71,10 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                 child: ListView.builder(itemBuilder: (BuildContext context, int index) {
                   return ElevatedButton(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/movie', arguments: {'movie':state.movies[index],  'date':state.date });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => WatchMovieWithSessions(authBloc: widget.authBloc, movie: state.movies[index],date: state.date), ),
+                      );
                     },
                     child: MovieOnePart(movie: state.movies[index],),
                   );

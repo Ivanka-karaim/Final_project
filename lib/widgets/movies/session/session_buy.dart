@@ -10,29 +10,28 @@ import '../../../models/session.dart';
 class SessionBuy extends StatefulWidget {
   final Session session;
   final List<Seat> seats;
+  final SessionBloc sessionBloc;
 
-  const SessionBuy({super.key, required this.session, required this.seats});
+  const SessionBuy({super.key, required this.session, required this.seats, required this.sessionBloc});
 
   @override
   State<SessionBuy> createState() => _SessionBuyState();
 }
 
 class _SessionBuyState extends State<SessionBuy> {
-  late final SessionBloc sessionBloc;
+
 
   @override
   void initState() {
     super.initState();
-    sessionBloc = SessionBloc();
-    sessionBloc
+    // sessionBloc = SessionBloc();
+    widget.sessionBloc
         .add(BookSeatsEvent(session: widget.session, seats: widget.seats));
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => SessionBloc())],
-        child: Column(
+    return  Column(
           children: [
             TextButton(
               onPressed: () {
@@ -42,6 +41,6 @@ class _SessionBuyState extends State<SessionBuy> {
             ),
             Container(child: Text('buy')),
           ],
-        ));
+        );
   }
 }

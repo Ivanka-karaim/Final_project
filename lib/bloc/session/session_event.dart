@@ -13,3 +13,10 @@ class BookSeatsEvent extends SessionEvent{
   BookSeatsEvent( {required this.session,required this.seats});
 }
 
+class GetSessionEvent extends SessionEvent{
+  final int sessionId;
+
+  GetSessionEvent({required this.sessionId});
+
+}
+

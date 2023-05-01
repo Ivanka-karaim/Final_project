@@ -3,6 +3,7 @@ import 'package:final_project/bloc/session/session_event.dart';
 import 'package:final_project/bloc/session/session_state.dart';
 
 import '../../datasource/token_local_data_source.dart';
+import '../../models/session.dart';
 import '../../repository/authorization.dart';
 import '../../repository/moveis_repository.dart';
 
@@ -13,6 +14,7 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
 
   SessionBloc():super(SessionInitial()){
     on<BookSeatsEvent>(_bookSeats);
+    on<GetSessionEvent>(_getSession);
   }
 
   void _bookSeats(BookSeatsEvent event, Emitter<SessionState> emit) async{
@@ -31,6 +33,24 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       }else{
         print(true);
         emit(SessionBook());
+      }
+    }
+  }
+
+  void _getSession(GetSessionEvent event, Emitter<SessionState> emit) async{
+    final accessToken = await _tokenLocalDatasource.getToken();
+    if (accessToken == null) {
+      emit(SessionFailure());
+    }else {
+      final sessionResponse = await _movieRepository.getSession(accessToken, event.sessionId);
+
+
+      if (sessionResponse["success"] == false){
+        print(false);
+        emit(SessionFailure());
+      }else{
+        final session = Session.fromJson(sessionResponse["data"]);
+        emit(SessionObject(session: session));
       }
     }
   }
