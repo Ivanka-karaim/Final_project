@@ -39,7 +39,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [ BlocProvider(create: (context) => MovieBloc()),], child: Scaffold(
+    return Scaffold(
       body: Column(
           children: [
             SizedBox(
@@ -70,7 +70,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                 child: ListView.builder(itemBuilder: (BuildContext context, int index) {
                   return ElevatedButton(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/movie', arguments: {'movie':state.movies[index], 'bloc':movieBloc, 'date':state.date });
+                      Navigator.pushNamed(context, '/movie', arguments: {'movie':state.movies[index],  'date':state.date });
                     },
                     child: MovieOnePart(movie: state.movies[index],),
                   );
@@ -81,7 +81,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
             }),
           ],
         ),
-      ),
+
     );
   }
 }

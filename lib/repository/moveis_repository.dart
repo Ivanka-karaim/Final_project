@@ -22,8 +22,8 @@ class MovieRepository {
     return jsonDecode(response.body);
   }
 
-  Future<List<Movie>> getAllMoviesDateSearch(String accessToken, String date,
-      String search) async {
+  Future<List<Movie>> getAllMoviesDateSearch(
+      String accessToken, String date, String search) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/movies?date=$date&query=$search'),
       headers: {
@@ -59,9 +59,8 @@ class MovieRepository {
     return movies;
   }
 
-
-  Future<dynamic> getSessionsMovieDate(String accessToken, String date,
-      int movieId) async {
+  Future<dynamic> getSessionsMovieDate(
+      String accessToken, String date, int movieId) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/movies/sessions?movieId=$movieId&date=$date'),
       headers: {
@@ -81,7 +80,6 @@ class MovieRepository {
     return jsonDecode(response.body);
   }
 
-
   Future<Session> getSession(String accessToken, int id) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/movies/sessions/$id'),
@@ -93,46 +91,44 @@ class MovieRepository {
     return Session.fromJson(jsonDecode(response.body)["data"]);
   }
 
-  Future<bool> bookSeatsForMovie(String accessToken, int sessionId,
-      List<int> seats) async {
-    final response = await http.post(Uri.parse('$URL_API/api/movies/book'),
-
-        headers: {
-          "Authorization": ' Bearer $accessToken'
-        },
-        body: {
-          "seats": seats.toString(),
-          "sessionId": sessionId.toString()
-        }
+  Future<dynamic> bookSeatsForMovie(
+      String accessToken, int sessionId, List<int> seats) async {
+    final response = await http.post(
+      Uri.parse('$URL_API/api/movies/book'),
+      headers: {"Authorization": ' Bearer $accessToken'},
+      body: {
+        "seats": seats.toString(),
+        "sessionId": sessionId.toString(),
+      },
     );
+
+    return jsonDecode(response.body);
+  }
+
+  Future<bool> buySeats(
+      String accessToken,
+      int sessionId,
+      String email,
+      String cardNumber,
+      String expirationDate,
+      String cvv,
+      List<int> seats) async {
+    print(seats);
+    final response =
+        await http.post(Uri.parse('$URL_API/api/movies/buy'), headers: {
+      "Authorization": ' Bearer $accessToken'
+    }, body: {
+      "seats": seats.toString(),
+      "sessionId": sessionId.toString(),
+      "email": email,
+      "cardNumber": cardNumber,
+      "expirationDate": expirationDate,
+      "cvv": cvv
+    });
 
     return jsonDecode(response.body)["success"];
   }
-
-  Future<bool> buySeats(String accessToken, int sessionId, String email,
-      String cardNumber, String expirationDate, String cvv,
-      List<int> seats) async {
-    final response = await http.post(Uri.parse('$URL_API/api/movies/buy'),
-
-        headers: {
-          "Authorization": ' Bearer $accessToken'
-        },
-        body: {
-          "seats": seats.toString(),
-          "sessionId": sessionId.toString(),
-          "email": email,
-          "cardNumber": cardNumber,
-          "expirationDate": expirationDate,
-          "cvv": cvv
-        }
-    );
-
-    return jsonDecode(response.body)["success"];
-  }
-
-
 }
-
 
 Future<void> main() async {
   MovieRepository movieRepository = MovieRepository();
@@ -144,23 +140,20 @@ Future<void> main() async {
       "543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-05-09');
   // print(movies["data"].length);
   // await movieRepository.getAllMovies("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
-  List<Session> sessions = await movieRepository.getSessionsMovieDate("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-05-09', movies["data"][0]["id"]);
-  print(sessions);
+  // List<Session> sessions = await movieRepository.getSessionsMovieDate("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-05-09', movies["data"][0]["id"])["data"];
+  // print(sessions);
   // Session session = await movieRepository.getSession("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", sessions[0].id);
   //
   // print(session);
 
-  final tickets = await auth.getUserTickets("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
+  // final tickets = await auth.getUserTickets("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
   // print(tickets);
   // print(["1","2"].toString());
-  final book = await movieRepository.bookSeatsForMovie("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", 10, [1,2]);
-  // print(book);
-  final buy = await movieRepository.buySeats("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", 10, "svyrop@gmail.com", "1111111111111111", "12/24", "123", [1,2]);
+  final book = await movieRepository.bookSeatsForMovie(
+      "543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", 11, [79, 80]);
+  print(book);
+  // final buy = await movieRepository.buySeats("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", 10, "svyrop@gmail.com", "1111111111111111", "12/24", "123", [1,2]);
   // print(buy);
-  final tickets1 = await auth.getUserTickets("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
+  // final tickets1 = await auth.getUserTickets("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
   // print(tickets1);
-
-
 }
-
-
