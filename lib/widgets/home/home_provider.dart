@@ -1,15 +1,12 @@
 import 'package:final_project/bloc/home/home_bloc.dart';
 import 'package:final_project/widgets/home/home_drawer.dart';
-import 'package:final_project/widgets/movies/movie.dart';
 import 'package:final_project/widgets/profile/profile_navigator.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/home/home_state.dart';
 import '../app_bar.dart';
-import '../profile/profile.dart';
+import '../movies/movie_navigator.dart';
 
 
 class HomeProvider extends StatefulWidget {
@@ -51,7 +48,7 @@ class _HomeProviderState extends State<HomeProvider> {
                 child: IndexedStack(
                   index: state.cIndex,
                   children:  [
-                    MoviePage(authBloc: widget.authBloc),
+                    MovieNavigator(authBloc: widget.authBloc),
                     ProfileNavigator(authBloc: widget.authBloc),
                   ],
                 ),

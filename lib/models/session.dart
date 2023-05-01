@@ -13,7 +13,7 @@ class Session {
 
   factory Session.fromJson(Map<String, dynamic> json){
 
-    return Session(json["id"], json["date"], json["type"], json["minPrice"], Room.fromJson(json["room"]));
+    return Session(json["id"],  DateTime.fromMillisecondsSinceEpoch(json["date"] * 1000), json["type"], json["minPrice"], Room.fromJson(json["room"]));
   }
 
   @override

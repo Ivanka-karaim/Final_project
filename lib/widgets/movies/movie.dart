@@ -1,6 +1,7 @@
 import 'package:final_project/bloc/movie/movie_event.dart';
 import 'package:final_project/bloc/movie/movie_state.dart';
 import 'package:final_project/widgets/movies/watch_film/date.dart';
+import 'package:final_project/widgets/movies/watch_film/movie_one_part.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,8 +65,17 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                   height: 50.0,
                   child: CircularProgressIndicator(
                   strokeWidth: 2.0,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-              ), ): state is MovieSuccessful? Text('${state.movies}'):HomePage(authBloc: widget.authBloc,);
+                  valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
+              ), ): state is MovieSuccessful? Expanded(
+                child: ListView.builder(itemBuilder: (BuildContext context, int index) {
+                  return ElevatedButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/movie', arguments: {'movie':state.movies[index], 'bloc':movieBloc, 'date':state.date });
+                    },
+                    child: MovieOnePart(movie: state.movies[index],),
+                  );
+                },itemCount: state.movies.length,),
+              ):HomePage(authBloc: widget.authBloc,);
             }, listener: (context, state){
 
             }),

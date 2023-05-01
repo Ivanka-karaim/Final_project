@@ -60,7 +60,7 @@ class MovieRepository {
   }
 
 
-  Future<List<Session>> getSessionsMovieDate(String accessToken, String date,
+  Future<dynamic> getSessionsMovieDate(String accessToken, String date,
       int movieId) async {
     final response = await http.get(
       Uri.parse('$URL_API/api/movies/sessions?movieId=$movieId&date=$date'),
@@ -68,16 +68,17 @@ class MovieRepository {
         'Authorization': 'Bearer $accessToken',
       },
     );
-    print(response.body);
-    final sessionsApi = jsonDecode(response.body)["data"];
-    print(sessionsApi);
-    List<Session> sessions = [];
-    for (int i = 0; i < sessionsApi.length; i++) {
-      sessions.add(Session.fromJson(sessionsApi[i]));
-    }
-    print(jsonDecode(response.body)["data"].length);
-    print(sessions);
-    return sessions;
+    // print(response.body);
+    // final sessionsApi = jsonDecode(response.body)["data"];
+    // print(sessionsApi);
+    // List<Session> sessions = [];
+    // for (int i = 0; i < sessionsApi.length; i++) {
+    //   sessions.add(Session.fromJson(sessionsApi[i]));
+    // }
+    // print(jsonDecode(response.body)["data"].length);
+    // print(sessions);
+    // return sessions;
+    return jsonDecode(response.body);
   }
 
 
@@ -140,24 +141,24 @@ Future<void> main() async {
   // print(response);
 
   final movies = await movieRepository.getAllMoviesDate(
-      "543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-04-27');
-  print(movies);
+      "543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-05-09');
+  // print(movies["data"].length);
   // await movieRepository.getAllMovies("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
-  // List<Session> sessions = await movieRepository.getSessionsMovieDate("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-04-27', movies[0].id);
-  // print(sessions);
+  List<Session> sessions = await movieRepository.getSessionsMovieDate("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", '2023-05-09', movies["data"][0]["id"]);
+  print(sessions);
   // Session session = await movieRepository.getSession("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", sessions[0].id);
   //
   // print(session);
 
   final tickets = await auth.getUserTickets("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
-  print(tickets);
-  print(["1","2"].toString());
+  // print(tickets);
+  // print(["1","2"].toString());
   final book = await movieRepository.bookSeatsForMovie("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", 10, [1,2]);
-  print(book);
+  // print(book);
   final buy = await movieRepository.buySeats("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb", 10, "svyrop@gmail.com", "1111111111111111", "12/24", "123", [1,2]);
-  print(buy);
+  // print(buy);
   final tickets1 = await auth.getUserTickets("543|5Yt76GTj0u1ZBi6prqmQLPRHSfs8Yx6DuLaUtEsb");
-  print(tickets1);
+  // print(tickets1);
 
 
 }

@@ -4,6 +4,7 @@ import 'package:final_project/bloc/movie/movie_state.dart';
 
 import '../../datasource/token_local_data_source.dart';
 import '../../models/movie.dart';
+import '../../models/session.dart';
 import '../../repository/moveis_repository.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState>{
@@ -13,6 +14,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
 
   MovieBloc():super(MovieInitial()){
     on<GetMoviesEvent>(_getMovies);
+    on<GetMovieWithSessions>(_getMovieWithSessions);
 
   }
 
@@ -32,8 +34,30 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
           movies.add(Movie.fromJson(moviesBody["data"][i]));
         }
 
-        emit(MovieSuccessful(movies: movies));
+        emit(MovieSuccessful(movies: movies, date: event.date));
         print(state);
+      }
+    }
+  }
+
+  void _getMovieWithSessions(GetMovieWithSessions event, Emitter<MovieState> state) async{
+    final accessToken = await _tokenLocalDatasource.getToken();
+    if (accessToken == null) {
+      emit(MovieFailure());
+    } else {
+      String date = '${event.date.year}-${event.date.month}-${event.date.day}';
+      final sessionsBody = await _movieRepository.getSessionsMovieDate(accessToken, date, event.movie.id);
+      if (sessionsBody["success"] == false) {
+        emit(MovieFailure());
+      } else {
+        final sessionsApi = sessionsBody["data"];
+        print(sessionsApi);
+        List<Session> sessions = [];
+        for (int i = 0; i < sessionsApi.length; i++) {
+          sessions.add(Session.fromJson(sessionsApi[i]));
+        }
+        emit(MovieSuccessfulWithSessions(movie: event.movie, sessions: sessions));
+
       }
     }
   }
