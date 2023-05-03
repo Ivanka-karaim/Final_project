@@ -22,21 +22,27 @@ class ProfileInformationPage extends StatelessWidget {
         body: Center(
             child: Column(
           children: [
+            SizedBox(height:200),
             Text(
-              '${state.user?.name}',
-              style: TextStyle(color: Colors.white),
+              'Привіт ${state.user?.name}',
+              style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w500),
             ),
-            TextButton(
+            SizedBox(height:150),
+            ElevatedButton(
                 onPressed: () async {
                   Navigator.pushNamed(context, '/tickets', );
-                  // Navigator.pop(context);
                 },
-                child: Text('Переглянути куплені квитки')),
-            TextButton(
+              style: ElevatedButton.styleFrom(fixedSize: Size(300, 40),backgroundColor: Colors.deepPurpleAccent),
+                child: Text('Переглянути куплені квитки'),
+            ),
+            SizedBox(height:100),
+            ElevatedButton(
                 onPressed: () {
                   authBloc.add(RemoveUserEvent());
                 },
-                child: Text('Вийти з профілю')),
+                child: Text('Вийти з профілю'),
+            style:ElevatedButton.styleFrom( backgroundColor: Colors.deepPurpleAccent),
+            ),
 
           ],
         )));

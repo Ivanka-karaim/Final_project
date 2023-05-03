@@ -22,3 +22,5 @@ class SessionObject extends SessionState{
 
 class SessionFailure extends SessionState{}
 
+class SeatsSuccessful extends SessionState{}
+

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/movie/movie_bloc.dart';
+import '../circular.dart';
 import '../home/home.dart';
 
 class MoviePage extends StatefulWidget {
@@ -20,9 +21,8 @@ class MoviePage extends StatefulWidget {
 }
 
 class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
-  int cIndex = 0;
+  late int cIndex;
   List<DateTime> dates = [];
-
   late final MovieBloc movieBloc;
 
   @override
@@ -30,62 +30,85 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
     super.initState();
     DateTime now = DateTime.now();
     dates.add(now);
-    for(int i=0; i<7; i++) {
+    for (int i = 0; i < 7; i++) {
       dates.add(dates[i].add(Duration(days: 1)));
     }
     movieBloc = MovieBloc();
     movieBloc.add(GetMoviesEvent(date: now));
+    cIndex = 0;
   }
+
 
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Column(
-          children: [
-            SizedBox(
-              height: 150,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                        onPressed: (){movieBloc.add(GetMoviesEvent(date: dates[index]));},
-                        child: Date(text:dates[index].toString()),
-                      );
-                    },
-                    itemCount: 7),
-              ),
+        children: [
+          SizedBox(
+            height: 100,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return TextButton(
+                      onPressed: () {
+                        setState(() {
+                          cIndex = index;
+                        });
+                        movieBloc.add(GetMoviesEvent(date: dates[index]));
+                      },
+                      child: Date(
+                        dateTime: dates[index],
+                        isThisDate: index == cIndex,
+                      ),
+                    );
+                  },
+                  itemCount: 7),
             ),
-            Text('films'),
-            BlocConsumer(bloc: movieBloc, builder: (context, state){
-              print(999);
-              return state is MovieInitial? const SizedBox(
-                  width: 50.0,
-                  height: 50.0,
-                  child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-              ), ): state is MovieSuccessful? Expanded(
-                child: ListView.builder(itemBuilder: (BuildContext context, int index) {
-                  return ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => WatchMovieWithSessions(authBloc: widget.authBloc, movie: state.movies[index],date: state.date), ),
-                      );
-                    },
-                    child: MovieOnePart(movie: state.movies[index],),
-                  );
-                },itemCount: state.movies.length,),
-              ):HomePage(authBloc: widget.authBloc,);
-            }, listener: (context, state){
-
-            }),
-          ],
-        ),
-
+          ),
+          BlocConsumer(
+              bloc: movieBloc,
+              builder: (context, state) {
+                print(999);
+                return state is MovieInitial
+                    ? Circular()
+                    : state is MovieSuccessful
+                        ? Expanded(
+                            child: ListView.builder(
+                              itemBuilder: (BuildContext context, int index) {
+                                return ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            WatchMovieWithSessions(
+                                                authBloc: widget.authBloc,
+                                                movie: state.movies[index],
+                                                date: state.date),
+                                      ),
+                                    );
+                                  },
+                                  child: MovieOnePart(
+                                    movie: state.movies[index],
+                                  ),
+                                );
+                              },
+                              itemCount: state.movies.length,
+                            ),
+                          )
+                        : HomePage(
+                            authBloc: widget.authBloc,
+                          );
+              },
+              listener: (context, state) {}),
+        ],
+      ),
     );
   }
 }

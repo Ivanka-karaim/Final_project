@@ -5,12 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/profile/profile_bloc.dart';
 import '../../bloc/profile/profile_state.dart';
+import '../circular.dart';
 import '../home/home.dart';
 
 class ProfileInformationTicketsPage extends StatefulWidget {
   final AuthBloc authBloc;
 
-  const ProfileInformationTicketsPage({super.key, required this.authBloc,});
+  const ProfileInformationTicketsPage({
+    super.key,
+    required this.authBloc,
+  });
 
   @override
   State<ProfileInformationTicketsPage> createState() =>
@@ -31,33 +35,47 @@ class _ProfileInformationTicketsPageState
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(
-        bloc: profileBloc, listener: (context, state) {}, builder:
-        (context, state) {
-      return state is ProfileInitial? const SizedBox(
-        width: 50.0,
-        height: 50.0,
-        child: CircularProgressIndicator(
-          strokeWidth: 2.0,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-        ),
-      ):state is ProfileInformationTickets ? Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: Column(
-            children: [
-
-              Text('Tickets', style: TextStyle(color: Colors.white),),
-              Text(
-                '${state.tickets}',
-                style: TextStyle(color: Colors.white),
-              ),
-              TextButton(child:Text('Назад'), onPressed: (){
-                Navigator.pop(context);
-              }),
-
-            ],
-          ),),) : HomePage(authBloc: widget.authBloc);
-    },
+      bloc: profileBloc,
+      listener: (context, state) {},
+      builder: (context, state) {
+        return state is ProfileInitial
+            ? Circular()
+            : state is ProfileInformationTickets
+                ? Scaffold(
+                    backgroundColor: Colors.black,
+                    body: Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/');
+                            },
+                            child: Text(
+                              'Повернутись у профіль',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 50),
+                          Text(
+                            'Ваші квитки',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            '${state.tickets}',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : HomePage(authBloc: widget.authBloc);
+      },
     );
   }
 }

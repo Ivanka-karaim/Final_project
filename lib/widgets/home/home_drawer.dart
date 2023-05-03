@@ -13,16 +13,12 @@ class HomeDrawer extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[900],
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-              border: Border.all(color:Colors.grey, width:0.5),
-              // color: Colors.white,
-            ),
+
             margin: EdgeInsets.zero,
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Column(
@@ -30,10 +26,10 @@ class HomeDrawer extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
-                  'Cinema',
+                  '   Cinema',
                   style: TextStyle(
-                    // color: Colors.black,
-                    fontSize: 24.0,
+                    color: Colors.deepPurpleAccent,
+                    fontSize: 28.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -42,16 +38,23 @@ class HomeDrawer extends StatelessWidget{
               ],
             ),
           ),
+          Container(
+            color: Colors.white,
+            height: 0.5,
+
+          ),
+          SizedBox(height:40),
           ListTile(
-            title: const Text('Фільми', style: TextStyle()),
+            title: const Text('   Фільми', style: TextStyle(color: Colors.white, fontSize: 20)),
             onTap: () {
               HomeBloc bloc = context.read<HomeBloc>();
               bloc.add(ChangeEvent(cIndex: 0));
               Navigator.pop(context);
             },
           ),
+          SizedBox(height:20),
           ListTile(
-            title: const Text('Профіль'),
+            title: const Text('   Профіль', style: TextStyle(color: Colors.white, fontSize: 20)),
             onTap: () {
               HomeBloc bloc = context.read<HomeBloc>();
               bloc.add(ChangeEvent(cIndex: 1));

@@ -93,13 +93,17 @@ class MovieRepository {
 
   Future<dynamic> bookSeatsForMovie(
       String accessToken, int sessionId, List<int> seats) async {
+    Map<String, dynamic> map = {
+      "sessionId": sessionId,
+      "seats": seats,
+
+    };
+    final json = jsonEncode(map);
+    print(json);
     final response = await http.post(
       Uri.parse('$URL_API/api/movies/book'),
       headers: {"Authorization": ' Bearer $accessToken'},
-      body: {
-        "seats": seats.toString(),
-        "sessionId": sessionId.toString(),
-      },
+      body:json,
     );
 
     return jsonDecode(response.body);

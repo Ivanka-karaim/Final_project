@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
+import '../circular.dart';
 
 class ProfilePage extends StatefulWidget {
   final AuthBloc authBloc;
@@ -43,20 +44,10 @@ class _ProfilePageState extends State<ProfilePage> {
           return state is ProfileFailure
               ? HomePage(authBloc: widget.authBloc)
               : state is ProfileInitial
-              ? const SizedBox(
-            width: 50.0,
-            height: 50.0,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.0,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
-          )
+              ? Circular()
               :
           ProfileInformationPage(authBloc: widget.authBloc, state: state as ProfileInformation,profileBloc:profileBloc);
-          //     :
-          // ProfileInformationTicketsPage(
-          //   state: state as ProfileInformationTickets, authBloc: widget.authBloc,);
-        },
+          },
       ),
     );
   }

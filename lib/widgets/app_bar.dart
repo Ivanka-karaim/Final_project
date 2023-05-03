@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         shape: const RoundedRectangleBorder(
           side: BorderSide(
               color: Colors.white,
-              width: 0.5), // колір та товщина межі
+              width: 0.2), // колір та товщина межі
         ),
         actions: [
           IconButton(

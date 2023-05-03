@@ -3,6 +3,7 @@ import 'package:final_project/bloc/session/session_event.dart';
 import 'package:final_project/bloc/session/session_state.dart';
 
 import '../../datasource/token_local_data_source.dart';
+import '../../models/seat.dart';
 import '../../models/session.dart';
 import '../../repository/authorization.dart';
 import '../../repository/moveis_repository.dart';
@@ -11,11 +12,19 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
 
   final TokenLocalDatasource _tokenLocalDatasource = TokenLocalDatasourceImpl();
   final MovieRepository _movieRepository = MovieRepository();
+  // List<Seat> seats = [];
 
   SessionBloc():super(SessionInitial()){
     on<BookSeatsEvent>(_bookSeats);
     on<GetSessionEvent>(_getSession);
+    // on<AddToListSeatsEvent>(_addSeat);
   }
+
+  // void _addSeat(AddToListSeatsEvent event, Emitter<SessionState> emit) async {
+  //   seats.add(event.seat);
+  //   print(seats);
+  //   emit(SeatsSuccessful());
+  // }
 
   void _bookSeats(BookSeatsEvent event, Emitter<SessionState> emit) async{
     final accessToken = await _tokenLocalDatasource.getToken();
@@ -29,6 +38,8 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       final book = await _movieRepository.bookSeatsForMovie(accessToken, event.session.id, seats);
       if (book["success"] == false){
         print(false);
+        print(1111);
+        print(book);
         emit(SessionFailure());
       }else{
         print(true);
@@ -59,3 +70,4 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
 
 
 }
+

@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../models/seat.dart';
+import '../../../models/session.dart';
+import '../session_bloc.dart';
+import '../session_event.dart';
+
+class Place extends StatelessWidget {
+  final SessionBloc sessionBloc;
+  final Seat seat;
+  final Function addSeat;
+  final int row;
+
+  const Place({super.key, required this.row, required this.sessionBloc, required this.seat, required this.addSeat});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.all(0.0),
+          margin: EdgeInsets.all(4.0),
+          child: Container(
+
+            width: 30,
+            height: 30,
+            child: seat.isAvailable
+                ? ElevatedButton(
+                    onPressed: () {
+                      addSeat(row, seat);
+                     },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple, padding:  const EdgeInsets.all(0.0)),
+                    child: Text('${seat.index}', style: TextStyle(fontSize: 15),),
+
+                  )
+                : Container(
+              color: Colors.grey,
+                  child: Center(
+                    child: Text(
+                        '${seat.index}',
+                        style: TextStyle(color: Colors.black, fontSize: 15),
+                      ),
+                  ),
+                ),
+          ),
+        ),
+      ],
+    );
+  }
+}
