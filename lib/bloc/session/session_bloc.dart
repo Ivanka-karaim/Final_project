@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:final_project/bloc/session/session_event.dart';
 import 'package:final_project/bloc/session/session_state.dart';
 
@@ -17,6 +18,7 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
   SessionBloc():super(SessionInitial()){
     on<BookSeatsEvent>(_bookSeats);
     on<GetSessionEvent>(_getSession);
+    on<BuySeatsEvent>(_buySeats);
     // on<AddToListSeatsEvent>(_addSeat);
   }
 
@@ -47,6 +49,37 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       }
     }
   }
+
+  void _buySeats(BuySeatsEvent event, Emitter<SessionState> emit) async{
+    print("buy");
+    final accessToken = await _tokenLocalDatasource.getToken();
+    if (accessToken == null) {
+      emit(SessionFailure());
+    }else {
+      List<int> seats = [];
+      for(int i=0;i<event.seats.length; i++){
+        seats.add(event.seats[i].id);
+      }
+
+        final buy = await _movieRepository.buySeats(
+            accessToken,
+            event.sessionId,
+            event.email,
+            event.cardNumber,
+            event.expirationDate,
+            event.cvv,
+            seats);
+      print(buy);
+
+      if (buy["success"] == false){
+        emit(SessionFailure());
+      }else{
+        emit(BuySuccessful());
+      }
+      }
+    }
+
+
 
   void _getSession(GetSessionEvent event, Emitter<SessionState> emit) async{
     final accessToken = await _tokenLocalDatasource.getToken();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/seat.dart';
-import '../../../models/session.dart';
-import '../session_bloc.dart';
-import '../session_event.dart';
+import '../../../../models/seat.dart';
+import '../../../../models/session.dart';
+import '../../../../bloc/session/session_bloc.dart';
+import '../../../../bloc/session/session_event.dart';
 
 class Place extends StatelessWidget {
   final SessionBloc sessionBloc;
@@ -31,7 +31,7 @@ class Place extends StatelessWidget {
                       addSeat(row, seat);
                      },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple, padding:  const EdgeInsets.all(0.0)),
+                        backgroundColor: seat.type==0?Colors.brown:seat.type==1?Colors.pink:Colors.deepPurple, padding:  const EdgeInsets.all(0.0)),
                     child: Text('${seat.index}', style: TextStyle(fontSize: 15),),
 
                   )

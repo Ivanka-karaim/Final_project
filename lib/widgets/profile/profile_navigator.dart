@@ -17,7 +17,7 @@ class ProfileNavigator extends StatelessWidget{
       initialRoute: '/',
       routes: {
         '/': (context) => ProfilePage(authBloc: authBloc,),
-        '/tickets' : (context) => ProfileInformationTicketsPage( authBloc: authBloc,),
+        '/tickets' : (context) => ProfileInformationTicketsPage( ),
       },
     );
   }

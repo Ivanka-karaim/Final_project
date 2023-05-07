@@ -1,10 +1,8 @@
-
 import 'package:final_project/main.dart';
 import 'package:final_project/widgets/login/input.dart';
 import 'package:final_project/widgets/movies/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 import '../../bloc/sign_in/sign_in_bloc.dart';
 import '../../bloc/sign_in/sign_in_event.dart';
@@ -67,27 +65,27 @@ class _OtpWidgetState extends State<OtpWidget> {
                       .showSnackBar(const SnackBar(content: Text('Error')));
                 }
               },
-              child: Column(
-                children: [ElevatedButton(
-                onPressed: () {
-                  _submitForm();
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.deepPurple)),
-                child: const Text('Надіслати'),
-              ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _submitFormWithoutPassword();
-                    },
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.deepPurple)),
-                    child: const Text('Пароль не надійшов'),
-                  ),
-
-                ]), ),
+              child: Column(children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _submitForm();
+                  },
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.deepPurple)),
+                  child: const Text('Надіслати'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _submitFormWithoutPassword();
+                  },
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.deepPurple)),
+                  child: const Text('Пароль не надійшов'),
+                ),
+              ]),
+            ),
             const SizedBox(height: 150)
           ],
         ),
@@ -102,11 +100,12 @@ class _OtpWidgetState extends State<OtpWidget> {
     _authBloc.add(AuthorizationEvent(password: otp));
     print('Submitted otp: $otp');
   }
+
   void _submitFormWithoutPassword() {
     // Do something with the phone number
 
     print('Submitted otp: 0000');
-    _authBloc.add(AuthorizationEvent(password:"0000"));
+    _authBloc.add(AuthorizationEvent(password: "0000"));
     print('Submitted otp: 0000');
   }
 

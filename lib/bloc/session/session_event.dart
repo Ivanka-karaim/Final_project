@@ -18,6 +18,17 @@ class GetSessionEvent extends SessionEvent{
   GetSessionEvent({required this.sessionId});
 }
 
+class BuySeatsEvent extends SessionEvent{
+  final int sessionId;
+  final List<Seat> seats;
+  final String cardNumber;
+  final String expirationDate;
+  final String cvv;
+  final String email;
+
+  BuySeatsEvent({required this.sessionId,required this.seats, required this.cardNumber, required this.expirationDate, required this.cvv, required this.email});
+
+}
 class AddToListSeatsEvent extends SessionEvent{
   final Seat seat;
   AddToListSeatsEvent({required this.seat});

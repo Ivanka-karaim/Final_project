@@ -33,6 +33,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
         for (int i = 0; i < moviesBody["data"].length; i++) {
           movies.add(Movie.fromJson(moviesBody["data"][i]));
         }
+        movies.sort((a, b) => b.rating.compareTo(a.rating));
 
         emit(MovieSuccessful(movies: movies, date: event.date));
         print(state);
@@ -56,6 +57,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
         for (int i = 0; i < sessionsApi.length; i++) {
           sessions.add(Session.fromJson(sessionsApi[i]));
         }
+        sessions.sort((a, b)=>a.date.compareTo(b.date));
         emit(MovieSuccessfulWithSessions(movie: event.movie, sessions: sessions));
 
       }

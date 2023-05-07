@@ -12,9 +12,9 @@ import '../circular.dart';
 import '../home/home.dart';
 
 class MoviePage extends StatefulWidget {
-  final AuthBloc authBloc;
 
-  const MoviePage({super.key, required this.authBloc});
+
+  const MoviePage({super.key});
 
   @override
   State<MoviePage> createState() => _MoviePageState();
@@ -75,7 +75,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
               builder: (context, state) {
                 print(999);
                 return state is MovieInitial
-                    ? Circular()
+                    ? Expanded(child:Circular())
                     : state is MovieSuccessful
                         ? Expanded(
                             child: ListView.builder(
@@ -88,7 +88,6 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             WatchMovieWithSessions(
-                                                authBloc: widget.authBloc,
                                                 movie: state.movies[index],
                                                 date: state.date),
                                       ),
@@ -102,9 +101,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                               itemCount: state.movies.length,
                             ),
                           )
-                        : HomePage(
-                            authBloc: widget.authBloc,
-                          );
+                        : Text('Error');
               },
               listener: (context, state) {}),
         ],

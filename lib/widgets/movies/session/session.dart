@@ -1,18 +1,23 @@
-import 'package:final_project/bloc/session/room/seats_choose.dart';
+import 'package:final_project/bloc/session/session_state.dart';
+import 'package:final_project/widgets/movies/session/room/place.dart';
+import 'package:final_project/widgets/movies/session/room/seats_choose.dart';
 import 'package:final_project/widgets/movies/session/session_buy.dart';
+import 'package:final_project/widgets/movies/watch_film/watch_movie_with_sessions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bloc/session/room/place.dart';
 import '../../../bloc/session/session_bloc.dart';
 import '../../../bloc/session/session_event.dart';
+import '../../../models/movie.dart';
 import '../../../models/seat.dart';
 import '../../../models/session.dart';
+import '../../circular.dart';
 
 class SessionPage extends StatefulWidget {
   final Session session;
+  final Movie movie;
 
-  const SessionPage({super.key, required this.session});
+  const SessionPage({super.key, required this.movie, required this.session});
 
   @override
   State<SessionPage> createState() => _SessionPageState();
@@ -52,55 +57,71 @@ class _SessionPageState extends State<SessionPage> {
       child: BlocConsumer(
         bloc: sessionBloc,
         builder: (context, state) {
-          return Scaffold(
+          return state is SessionInitial?Circular():state is SessionObject?Scaffold(
             backgroundColor: Colors.black,
             body: Center(
               child: Column(
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        '/',
+                        MaterialPageRoute(
+                          builder: (context) => WatchMovieWithSessions(movie: widget.movie, date:widget.session.date,
+
+                          ),
+                        ),
                       );
                     },
-                    child: Text('Переглянути усі фільми', style: TextStyle(color: Colors.deepPurple, decoration: TextDecoration.underline),),
+                    child: Text('Повернутись до фільму', style: TextStyle(color: Colors.deepPurple, decoration: TextDecoration.underline),),
                   ),
-                  for (int i = 0; i < widget.session.room.rows.length; i++)
+                  Text('${widget.movie.name}',style: TextStyle(color: Colors.white),),
+                  Text('${state.session.date}', style: TextStyle(color: Colors.white),),
+                  for (int i = 0; i < state.session.room.rows.length; i++)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         for (int j = 0;
-                            j < widget.session.room.rows[i].seats.length;
+                            j < state.session.room.rows[i].seats.length;
                             j++)
-                          Place(sessionBloc: sessionBloc, row: widget.session.room.rows[i].index,  seat:  widget.session.room.rows[i].seats[j], addSeat: addSeat,)
+                          Place(sessionBloc: sessionBloc, row: state.session.room.rows[i].index,  seat:  state.session.room.rows[i].seats[j], addSeat: addSeat,)
                       ],
                     ),
                   SeatsChoose(deleteSeats: deleteSeat, seats: bookSeats, rows: rows,),
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       List<Seat> list = bookSeats;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SessionBuy(
-                            session: widget.session,
+                            session: state.session,
                             seats: list,
                             sessionBloc: sessionBloc,
+                            movie: widget.movie,
+
                           ),
                         ),
                       );
                     },
                     child: Text('Купити'),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
                   ),
                 ],
               ),
             ),
-          );
+          ):Text('Error');
         },
         listener: (context, state) {},
       ),
     );
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    bookSeats = [];
+    rows = [];
   }
 }

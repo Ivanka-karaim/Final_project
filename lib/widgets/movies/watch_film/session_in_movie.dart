@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/movie.dart';
 import '../../../models/session.dart';
 import '../session/session.dart';
 
 class SessionInMovie extends StatelessWidget {
   final Session session;
   final int numberSession;
+  final Movie movie;
 
   const SessionInMovie(
-      {super.key, required this.session, required this.numberSession});
+      {super.key, required this.session, required this.numberSession, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,8 @@ class SessionInMovie extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SessionPage(
-                  session: session,
-                ),
+                builder: (context) =>
+                    SessionPage(movie: movie, session: session),
               ),
             );
           },

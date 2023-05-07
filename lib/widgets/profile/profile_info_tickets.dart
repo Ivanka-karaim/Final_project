@@ -9,11 +9,11 @@ import '../circular.dart';
 import '../home/home.dart';
 
 class ProfileInformationTicketsPage extends StatefulWidget {
-  final AuthBloc authBloc;
+  // final AuthBloc authBloc;
 
   const ProfileInformationTicketsPage({
     super.key,
-    required this.authBloc,
+    // required this.authBloc,
   });
 
   @override
@@ -67,14 +67,14 @@ class _ProfileInformationTicketsPageState
                                 fontWeight: FontWeight.w400),
                           ),
                           Text(
-                            '${state.tickets}',
+                            '${state.tickets.length}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
                     ),
                   )
-                : HomePage(authBloc: widget.authBloc);
+                : Text('Error');
       },
     );
   }

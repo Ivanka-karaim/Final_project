@@ -18,7 +18,7 @@ class MovieNavigator extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => MoviePage(authBloc: authBloc),
+        '/': (context) => MoviePage(),
         // '/movie' : (context) => WatchMovieWithSessions(authBloc: authBloc),
       },
     ), );

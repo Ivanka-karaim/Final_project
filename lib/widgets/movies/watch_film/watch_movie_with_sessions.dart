@@ -9,16 +9,16 @@ import '../../../bloc/movie/movie_event.dart';
 import '../../../bloc/movie/movie_state.dart';
 import '../../../models/movie.dart';
 import '../../circular.dart';
+import '../movie.dart';
 import 'age.dart';
 
 class WatchMovieWithSessions extends StatefulWidget {
-  final AuthBloc authBloc;
+
   final Movie movie;
   final DateTime date;
 
   const WatchMovieWithSessions(
       {super.key,
-      required this.authBloc,
       required this.movie,
       required this.date});
 
@@ -50,12 +50,17 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
                       child: ListView(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Column(
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => MoviePage(),
+                                      ),
+                                    );
                                   },
                                   child: Text(
                                     'Повернутись до перегляду усіх фільмів',
@@ -114,7 +119,8 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
                                 for (int i = 0; i < state.sessions.length; i++)
                                   SessionInMovie(
                                       session: state.sessions[i],
-                                      numberSession: i + 1),
+                                      numberSession: i + 1,
+                                  movie: widget.movie),
                               ],
                             ),
                           ),
