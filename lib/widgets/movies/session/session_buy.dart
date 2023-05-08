@@ -1,6 +1,7 @@
 import 'package:final_project/bloc/session/session_bloc.dart';
 import 'package:final_project/bloc/session/session_event.dart';
 import 'package:final_project/bloc/session/session_state.dart';
+import 'package:final_project/widgets/movies/session/pdf.dart';
 import 'package:final_project/widgets/movies/session/session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,6 +82,7 @@ class _SessionBuyState extends State<SessionBuy> {
                     ),
                     SizedBox(height:20),
                     ElevatedButton(onPressed:(){ _buy();}, child: Text('Купити'),style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),),
+                    ElevatedButton(onPressed:(){ createPdf();}, child: Text('Купити'),style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),),
 
                   ],
                 ),

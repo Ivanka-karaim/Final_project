@@ -8,6 +8,7 @@ import '../../models/seat.dart';
 import '../../models/session.dart';
 import '../../repository/authorization.dart';
 import '../../repository/moveis_repository.dart';
+import '../../widgets/movies/session/pdf.dart';
 
 class SessionBloc extends Bloc<SessionEvent,SessionState>{
 
@@ -74,6 +75,7 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       if (buy["success"] == false){
         emit(SessionFailure());
       }else{
+        createPdf();
         emit(BuySuccessful());
       }
       }
