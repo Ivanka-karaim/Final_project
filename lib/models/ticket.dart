@@ -5,9 +5,12 @@ class Ticket {
   final DateTime date;
   final String image;
   final String smallImage;
+  final int seatIndex;
+  final int rowIndex;
+  final String roomName;
 
-  Ticket(
-      this.id, this.movieId, this.name, this.date, this.image, this.smallImage);
+  Ticket(this.id, this.movieId, this.name, this.date, this.image,
+      this.smallImage, this.seatIndex, this.rowIndex, this.roomName);
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
@@ -16,11 +19,14 @@ class Ticket {
         json["name"],
         DateTime.fromMillisecondsSinceEpoch(json["date"] * 1000),
         json["image"],
-        json["smallImage"]);
+        json["smallImage"],
+        json["seatIndex"],
+        json["rowIndex"],
+        json["roomName"]);
   }
 
   @override
   String toString() {
-    return 'Ticket{id: $id, movieId: $movieId, name: $name, date: $date, image: $image, smallImage: $smallImage}';
+    return '$id$movieId$date$rowIndex$seatIndex';
   }
 }

@@ -10,8 +10,10 @@ import '../../../models/movie.dart';
 import '../../../models/seat.dart';
 import '../../../models/session.dart';
 import '../../circular.dart';
+import '../../home/home.dart';
 import '../../login/input.dart';
 import '../../profile/profile_info_tickets.dart';
+import '../movie_navigator.dart';
 
 class SessionBuy extends StatefulWidget {
   final Session session;
@@ -82,8 +84,6 @@ class _SessionBuyState extends State<SessionBuy> {
                     ),
                     SizedBox(height:20),
                     ElevatedButton(onPressed:(){ _buy();}, child: Text('Купити'),style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),),
-                    ElevatedButton(onPressed:(){ createPdf();}, child: Text('Купити'),style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),),
-
                   ],
                 ),
               ),],
@@ -117,7 +117,7 @@ class _SessionBuyState extends State<SessionBuy> {
     Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProfileInformationTicketsPage(),
+            builder: (context) => MovieNavigator(),
           ),
         );
 

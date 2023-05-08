@@ -48,7 +48,7 @@ class _HomeProviderState extends State<HomeProvider> {
                 child: IndexedStack(
                   index: state.cIndex,
                   children:  [
-                    MovieNavigator(authBloc: widget.authBloc),
+                    MovieNavigator(),
                     ProfileNavigator(authBloc: widget.authBloc),
                   ],
                 ),

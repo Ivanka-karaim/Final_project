@@ -49,7 +49,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
           final ticket = Ticket.fromJson(userTickets["data"][i]);
           tickets.add(ticket);
         }
-        emit(ProfileInformationTickets(tickets: tickets));
+        print(tickets.length);
+        List<Ticket> ticketsFilter = tickets.where((ticket) => ticket.date.isAfter(DateTime.now())).toList();
+        print(ticketsFilter.length);
+        ticketsFilter.sort((a, b)=>a.date.compareTo(b.date));
+        print(ticketsFilter.length);
+        emit(ProfileInformationTickets(tickets: ticketsFilter));
         print(state);
       }
     }

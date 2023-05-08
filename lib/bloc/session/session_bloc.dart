@@ -75,7 +75,6 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       if (buy["success"] == false){
         emit(SessionFailure());
       }else{
-        createPdf();
         emit(BuySuccessful());
       }
       }

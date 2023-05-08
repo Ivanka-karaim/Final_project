@@ -9,8 +9,8 @@ import '../../bloc/movie/movie_bloc.dart';
 import '../profile/profile.dart';
 
 class MovieNavigator extends StatelessWidget{
-  final AuthBloc authBloc;
-  const MovieNavigator({super.key, required this.authBloc});
+
+  const MovieNavigator({super.key});
 
   @override
   Widget build(BuildContext context) {
