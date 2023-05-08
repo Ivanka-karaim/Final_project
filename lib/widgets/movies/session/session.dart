@@ -27,6 +27,7 @@ class _SessionPageState extends State<SessionPage> {
   late final SessionBloc sessionBloc;
   List<Seat> bookSeats = [];
   List<int> rows = [];
+  int sum=0;
 
   @override
   void initState() {
@@ -37,15 +38,18 @@ class _SessionPageState extends State<SessionPage> {
 
   void addSeat(int row, Seat seat) {
     setState(() {
+      bookSeats.contains(seat)? deleteSeat(bookSeats.indexOf(seat), seat):
       bookSeats.add(seat);
       rows.add(row);
+      sum = sum + seat.price;
     });
   }
 
-  void deleteSeat(int ind){
+  void deleteSeat(int ind, Seat seat){
     setState(() {
       rows.removeAt(ind);
       bookSeats.removeAt(ind);
+      sum = sum - seat.price;
     });
   }
 
@@ -85,10 +89,13 @@ class _SessionPageState extends State<SessionPage> {
                         for (int j = 0;
                             j < state.session.room.rows[i].seats.length;
                             j++)
-                          Place(sessionBloc: sessionBloc, row: state.session.room.rows[i].index,  seat:  state.session.room.rows[i].seats[j], addSeat: addSeat,)
+                          Place(sessionBloc: sessionBloc, row: state.session.room.rows[i].index,  seat:  state.session.room.rows[i].seats[j], addSeat: addSeat, seatsChoose: bookSeats)
                       ],
                     ),
                   SeatsChoose(deleteSeats: deleteSeat, seats: bookSeats, rows: rows,),
+                  SizedBox(height:20),
+                  Text('Загальна сума: ${sum} грн', style: TextStyle(color: Colors.white),),
+                  SizedBox(height:20),
                   ElevatedButton(
                     onPressed: () {
                       List<Seat> list = bookSeats;
@@ -100,6 +107,8 @@ class _SessionPageState extends State<SessionPage> {
                             seats: list,
                             sessionBloc: sessionBloc,
                             movie: widget.movie,
+                            sum: sum,
+                            rows: rows,
 
                           ),
                         ),

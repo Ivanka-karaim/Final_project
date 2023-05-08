@@ -57,6 +57,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
         for (int i = 0; i < sessionsApi.length; i++) {
           sessions.add(Session.fromJson(sessionsApi[i]));
         }
+        sessions = sessions.where((element) => element.date.isAfter(DateTime.now())).toList();
         sessions.sort((a, b)=>a.date.compareTo(b.date));
         emit(MovieSuccessfulWithSessions(movie: event.movie, sessions: sessions));
 

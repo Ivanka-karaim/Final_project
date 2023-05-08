@@ -49,7 +49,7 @@ class SeatsChoose extends StatelessWidget {
                         Text('${seats[i].price}', style: TextStyle(color: Colors.white),),
                         IconButton(
                           style: IconButton.styleFrom(padding: EdgeInsets.all(0)),
-                            onPressed: (){deleteSeats(i);},
+                            onPressed: (){deleteSeats(i, seats[i]);},
                             icon: Icon(
                               Icons.close,
                               color: Colors.deepPurple,
