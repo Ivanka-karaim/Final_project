@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SignInBloc(AuthorizationRepository(), TokenLocalDatasourceImpl())),
+        BlocProvider(create: (context) => SignInBloc(AuthorizationRepository(), DatasourceImpl())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

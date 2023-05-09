@@ -33,7 +33,7 @@ class AuthorizationRepository {
 
   }
 
-  Future<User> changeUser(Map<String, Object> json, String accessToken) async {
+  Future<dynamic> changeUser(Map<String, Object> json, String accessToken) async {
     final response = await http.post(
       Uri.parse('$URL_API/api/user'),
       body: json,
@@ -41,10 +41,7 @@ class AuthorizationRepository {
         'Authorization': 'Bearer $accessToken',
       },
     );
-
-    final user = User.fromJson(jsonDecode(response.body)["data"]);
-    print(user);
-    return user;
+    return jsonDecode(response.body);
   }
 
   Future<dynamic> getUserTickets(String accessToken) async {

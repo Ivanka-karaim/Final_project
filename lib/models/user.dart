@@ -8,9 +8,10 @@ class User {
   User(this.id, this.name, this.phoneNumber, this.createdAt, this.updatedAt);
 
   factory User.fromJson(Map<String, dynamic> json) {
+
     return User(
         json["id"],
-        json["name"],
+        json["name"] ?? '',
         json["phoneNumber"],
         DateTime.fromMillisecondsSinceEpoch(json["createdAt"] * 1000),
         DateTime.fromMillisecondsSinceEpoch(json["updatedAt"] * 1000));

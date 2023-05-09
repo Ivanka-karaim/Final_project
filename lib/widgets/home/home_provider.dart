@@ -50,6 +50,7 @@ class _HomeProviderState extends State<HomeProvider> {
                   children:  [
                     MovieNavigator(),
                     ProfileNavigator(authBloc: widget.authBloc),
+                    // FavouriteMovies(),
                   ],
                 ),
               ),

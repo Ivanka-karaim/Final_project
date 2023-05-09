@@ -11,7 +11,7 @@ import '../../repository/moveis_repository.dart';
 import '../../widgets/movies/session/pdf.dart';
 
 class SessionBloc extends Bloc<SessionEvent, SessionState> {
-  final TokenLocalDatasource _tokenLocalDatasource = TokenLocalDatasourceImpl();
+  final DataSource _tokenLocalDatasource = DatasourceImpl();
   final MovieRepository _movieRepository = MovieRepository();
 
   // List<Seat> seats = [];

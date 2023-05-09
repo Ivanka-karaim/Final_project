@@ -13,3 +13,9 @@ class SignInPhoneNumberError extends SignInState{}
 class SignInPasswordError extends SignInState{}
 
 class SignInPhoneNumberSuccessful extends SignInState{}
+
+class SignInError extends SignInState{
+  final String error;
+  SignInError({required this.error});
+
+}

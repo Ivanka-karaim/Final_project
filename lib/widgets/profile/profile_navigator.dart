@@ -5,6 +5,9 @@ import 'package:final_project/widgets/profile/profile.dart';
 import 'package:final_project/widgets/profile/profile_info_tickets.dart';
 import 'package:final_project/widgets/profile/user_tickets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/profile/profile_bloc.dart';
 
 class ProfileNavigator extends StatelessWidget{
   final AuthBloc authBloc;
@@ -13,14 +16,18 @@ class ProfileNavigator extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiBlocProvider(
+        providers: [
+        BlocProvider(create: (context) => ProfileBloc()),
+    ],child: MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => ProfilePage(authBloc: authBloc),
         '/tickets' : (context) => ProfileInformationTicketsPage( ),
+
       },
-    );
+    ), );
   }
 
 }

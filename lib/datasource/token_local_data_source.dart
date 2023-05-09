@@ -1,42 +1,38 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class TokenLocalDatasource {
+abstract class DataSource {
   Future<bool> saveToken(String jwt);
   Future<bool> deleteToken();
   Future<String?> getToken();
+  Future<void> addMovies(List<String> fvt);
+  Future<bool> addMovie(String fvt);
+  Future<bool> deleteMovie(String fvt);
+  Future<List<String>?> getMovies();
   // Future init();
 
 }
-class Singleton {
-  static final Singleton _singleton = Singleton._internal();
+// class Singleton {
+//   static final Singleton _singleton = Singleton._internal();
+//
+//   factory Singleton() {
+//     return _singleton;
+//   }
+//
+//   Singleton._internal();
+// }
+class  DatasourceImpl extends DataSource {
+  static final DatasourceImpl _singleton = DatasourceImpl._internal();
 
-  factory Singleton() {
-    return _singleton;
-  }
-
-  Singleton._internal();
-}
-class  TokenLocalDatasourceImpl extends TokenLocalDatasource {
-  static final TokenLocalDatasourceImpl _singleton = TokenLocalDatasourceImpl._internal();
-
-  TokenLocalDatasourceImpl._internal();
+  DatasourceImpl._internal();
 
 
-  factory TokenLocalDatasourceImpl(){
+  factory DatasourceImpl(){
     return _singleton;
   }
 
   late final Future<SharedPreferences> sharedPreferences = SharedPreferences.getInstance();
 
-  // @override
-  // Future init() async {
-  //   print(1111);
-  //   if (sharedPreferences == null ) {
-  //     sharedPreferences = await SharedPreferences.getInstance();
-  //     print(222);
-  //   }
-  // }
 
   @override
   Future<bool> saveToken(String jwt) async {
@@ -56,6 +52,34 @@ class  TokenLocalDatasourceImpl extends TokenLocalDatasource {
     sharedPreferences.then((value) => value.remove("Authorization"));
     return true;
   }
+
+  @override
+  Future<void> addMovies(List<String> fvt) async {
+    sharedPreferences.then((value) => value.setStringList("Favourite_movie", fvt));
+  }
+
+  @override
+  Future<bool> deleteMovie(String fvt) async {
+    List<String> movies = await sharedPreferences.then((value) => value.getStringList("Favourite_movie"))??[];
+    movies.remove(fvt);
+    sharedPreferences.then((value) => value.setStringList("Favourite_movie", movies));
+    return true;
+  }
+
+  @override
+  Future<bool> addMovie(String fvt) async {
+    List<String> movies = await sharedPreferences.then((value) => value.getStringList("Favourite_movie"))??[];
+    movies.add(fvt);
+    sharedPreferences.then((value) => value.setStringList("Favourite_movie", movies));
+    return true;
+  }
+
+  @override
+  Future<List<String>?> getMovies() async {
+    return sharedPreferences.then((value) => value.getStringList("Favourite_movie"));
+  }
+
+
 
 
 }

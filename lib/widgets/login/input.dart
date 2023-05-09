@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class Input extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
+  final bool obscure;
 
-  const Input({super.key, required this.hint, required this.controller});
+  const Input({super.key, required this.hint, required this.controller, required this.obscure});
 
 
 
@@ -17,6 +18,7 @@ class Input extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
+        obscureText: obscure,
         controller: controller,
         style: const TextStyle(
           color: Colors.white,

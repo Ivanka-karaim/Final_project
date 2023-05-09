@@ -49,7 +49,7 @@ class _OtpWidgetState extends State<OtpWidget> {
             const SizedBox(
               height: 20,
             ),
-            Input(controller: _controller, hint: '0000'),
+            Input(controller: _controller, hint: '0000', obscure: false,),
             const SizedBox(
               height: 16.0,
             ),

@@ -9,7 +9,7 @@ import '../../repository/moveis_repository.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState>{
 
-  final TokenLocalDatasource _tokenLocalDatasource = TokenLocalDatasourceImpl();
+  final DataSource _tokenLocalDatasource = DatasourceImpl();
   final MovieRepository _movieRepository = MovieRepository();
 
   MovieBloc():super(MovieInitial()){

@@ -24,7 +24,11 @@ class ProfileFailure extends ProfileState{
 
 class ProfileInformationTickets extends ProfileState {
   final List<Ticket> tickets;
-
   ProfileInformationTickets({required this.tickets});
+}
+class ChangeUserSuccessful extends ProfileState {
+  final User user;
+
+  ChangeUserSuccessful({required this.user});
 
 }

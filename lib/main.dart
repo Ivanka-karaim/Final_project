@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   late AuthBloc authBloc;
 
   Future checkIfAuthorized() async{
-    TokenLocalDatasourceImpl();
+    DatasourceImpl();
     authBloc.add(CheckUserEvent());
   }
 

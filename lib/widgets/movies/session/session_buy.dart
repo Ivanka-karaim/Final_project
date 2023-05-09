@@ -149,20 +149,20 @@ class _SessionBuyState extends State<SessionBuy> {
                                   Text('Адреса електронної пошти',  style: styleGeneralText,),
                                   Input(
                                       controller: _controllerEmail,
-                                      hint: 'aaa@gmail.com'),
+                                      hint: 'aaa@gmail.com', obscure: false,),
                                   const SizedBox(height: 20),
                                   Text('Номер карти',  style: styleGeneralText,),
                                   Input(
                                       controller: _controllerCardNumber,
-                                      hint: '0000-0000-0000-0000'),
+                                      hint: '0000-0000-0000-0000', obscure: false,),
                                   const SizedBox(height: 20),
                                   Text('Дата доки карта дійсна',  style: styleGeneralText,),
                                   Input(
                                       controller: _controllerExpirationDate,
-                                      hint: '12/24'),
+                                      hint: '12/24', obscure: false,),
                                   const SizedBox(height: 20),
                                   Text('CVV',  style: styleGeneralText,),
-                                  Input(controller: _controllerCVV, hint: '000'),
+                                  Input(controller: _controllerCVV, hint: '000', obscure: true,),
                                   const SizedBox(height: 20),
                                   ElevatedButton(
                                     onPressed: () {

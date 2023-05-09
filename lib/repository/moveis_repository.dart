@@ -31,6 +31,20 @@ class MovieRepository {
     // print(movies);
     return jsonDecode(response.body);
   }
+  Future<dynamic> getMovieId(String accessToken, int id) async {
+    final response = await http.get(
+      Uri.parse('$URL_API/api/movies?$id'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+        'Accept-Language': 'uk',
+      },
+    );
+    // print(response.body);
+
+    // print(jsonDecode(response.body)["data"].length);
+    // print(movies);
+    return jsonDecode(response.body);
+  }
 
   Future<List<Movie>> getAllMoviesDateSearch(
       String accessToken, String date, String search) async {

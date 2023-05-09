@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         builder: (BuildContext context, state) {
           return state is ProfileFailure
-              ? HomePage(authBloc: widget.authBloc)
+              ? ErrorPage(error: '')
               : state is ProfileInitial
               ? Circular()
               :

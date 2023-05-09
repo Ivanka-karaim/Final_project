@@ -11,12 +11,28 @@ import '../../repository/authorization.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
-  final TokenLocalDatasource _tokenLocalDatasource = TokenLocalDatasourceImpl();
+  final DataSource _tokenLocalDatasource = DatasourceImpl();
   final AuthorizationRepository _authorizationRepository = AuthorizationRepository();
 
   ProfileBloc():super(ProfileInitial()){
     on<GetUserEvent>(_getUser);
     on<GetUserTicketsEvent>(_getUserTickets);
+    on<ChangeUserEvent>(_changeUser);
+  }
+
+  void _changeUser(ChangeUserEvent event, Emitter<ProfileState> emit) async{
+    final accessToken = await _tokenLocalDatasource.getToken();
+    if (accessToken == null) {
+      emit(ProfileFailure(error:'Account error'));
+    }else {
+      final user = await _authorizationRepository.changeUser({"name":event.name}, accessToken);
+      if (user["success"] == false){
+        emit(ProfileFailure(error: user["data"]));
+      }else{
+        print(12);
+        emit(ProfileInformation(user:User.fromJson(user["data"] as Map<String, dynamic>)));
+      }
+    }
   }
 
   void _getUser(GetUserEvent event, Emitter<ProfileState> emit) async{

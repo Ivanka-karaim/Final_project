@@ -1,3 +1,4 @@
+import 'package:final_project/widgets/profile/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +21,7 @@ class ProfileInformationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -34,6 +36,21 @@ class ProfileInformationPage extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 150),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(profileBloc: profileBloc)
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                  fixedSize: Size(300, 40),
+                  backgroundColor: Colors.deepPurpleAccent),
+              child: Text('Редагувати профіль'),
+            ),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
                 Navigator.pushNamed(

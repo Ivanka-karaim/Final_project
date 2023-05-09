@@ -48,7 +48,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             const SizedBox(height: 20,),
             Input(
               controller: _phoneNumberController,
-              hint: '+38000000000'
+              hint: '+38000000000',
+              obscure: false,
             ),
             const SizedBox(height: 16.0,),
             BlocListener<SignInBloc, SignInState>
@@ -58,6 +59,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
                 } else if(state is SignInPhoneNumberError) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error')));
+                } else if(state is SignInError){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+
                 }
             },
               child: ElevatedButton(

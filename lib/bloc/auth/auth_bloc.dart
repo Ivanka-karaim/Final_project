@@ -9,7 +9,7 @@ import '../../repository/authorization.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState>{
   late final String phoneNumber;
 
-  final TokenLocalDatasource _tokenLocalDatasource = TokenLocalDatasourceImpl();
+  final DataSource _tokenLocalDatasource = DatasourceImpl();
 
   AuthBloc():super(AuthInitial()){
     on<SaveUserEvent>(_saveUser);
