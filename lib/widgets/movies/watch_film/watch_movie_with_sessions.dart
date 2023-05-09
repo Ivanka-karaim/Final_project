@@ -11,6 +11,7 @@ import '../../../bloc/auth/auth_bloc.dart';
 import '../../../bloc/movie/movie_bloc.dart';
 import '../../../bloc/movie/movie_event.dart';
 import '../../../bloc/movie/movie_state.dart';
+import '../../../error.dart';
 import '../../../models/movie.dart';
 import '../../circular.dart';
 import '../movie.dart';
@@ -266,9 +267,20 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
                       ],
                     ),
                   )
-                : Container(child: Text('erv'));
+                : Container(child: Text('error'));
       },
-      listener: (BuildContext context, Object? state) {},
+      listener: (BuildContext context, Object? state) {
+        if (state is MovieFailure){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ErrorPage(error: state.error)
+            ),
+          );
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.error)));
+        }
+      },
     );
   }
 

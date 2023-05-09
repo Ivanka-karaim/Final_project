@@ -9,6 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/profile/profile_bloc.dart';
 import '../../bloc/profile/profile_state.dart';
+import '../../error.dart';
 import '../circular.dart';
 import '../home/home.dart';
 import '../movies/session/pdf.dart';
@@ -45,6 +46,12 @@ class _ProfileInformationTicketsPageState
         bloc: profileBloc,
         listener: (context, state) {
           if (state is ProfileFailure){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ErrorPage(error: state.error)
+              ),
+            );
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.error)));
           }

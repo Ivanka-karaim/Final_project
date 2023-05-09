@@ -2,9 +2,9 @@ import 'package:final_project/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Error extends StatelessWidget{
+class ErrorPage extends StatelessWidget{
   final String error;
-  const Error({super.key, required this.error});
+  const ErrorPage({super.key, required this.error});
 
   @override
   Widget build(BuildContext context) {

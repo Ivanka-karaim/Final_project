@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/movie/movie_bloc.dart';
+import '../../error.dart';
 import '../circular.dart';
 import '../home/home.dart';
 
@@ -44,8 +45,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
           BlocConsumer(
               bloc: movieBloc,
               builder: (context, state) {
-                return state is MovieFailure? HomePage(authBloc: AuthBloc())
-                    : state is MovieSuccessful
+                return state is MovieSuccessful
                         ? Expanded(
                             child: ListView.builder(
                               itemBuilder: (BuildContext context, int index) {
@@ -72,7 +72,18 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                           )
                         :Expanded(child:Circular());
               },
-              listener: (context, state) {}),
+              listener: (context, state) {
+                if(state is MovieFailure){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ErrorPage(error: state.error)
+                    ),
+                  );
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(state.error)));
+                }
+              }),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:final_project/widgets/movies/session/session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../error.dart';
 import '../../../models/movie.dart';
 import '../../../models/seat.dart';
 import '../../../models/session.dart';
@@ -192,9 +193,11 @@ class _SessionBuyState extends State<SessionBuy> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MovieNavigator(),
+                  builder: (context) => ErrorPage(error: state.error)
               ),
             );
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.error)));
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('Error')));

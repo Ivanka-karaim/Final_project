@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/session/session_bloc.dart';
 import '../../../bloc/session/session_event.dart';
+import '../../../error.dart';
 import '../../../models/movie.dart';
 import '../../../models/seat.dart';
 import '../../../models/session.dart';
@@ -241,6 +242,12 @@ class _SessionPageState extends State<SessionPage> {
         },
         listener: (context, state) {
           if (state is SessionFailure){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ErrorPage(error: state.error)
+              ),
+            );
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.error)));
           }
