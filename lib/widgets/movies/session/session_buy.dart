@@ -148,14 +148,18 @@ class _SessionBuyState extends State<SessionBuy> {
         listener: (context, state) {
           if (state is BuySuccessful) {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfileInformationTicketsPage()));
+              context,
+              MaterialPageRoute(
+                builder: (context) => MovieNavigator(),
+              ),
+            );
           } else if (state is SessionFailure) {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfileInformationTicketsPage()));
+              context,
+              MaterialPageRoute(
+                builder: (context) => MovieNavigator(),
+              ),
+            );
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('Error')));

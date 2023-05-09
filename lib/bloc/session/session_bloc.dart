@@ -32,7 +32,7 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
   void _bookSeats(BookSeatsEvent event, Emitter<SessionState> emit) async{
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(SessionFailure());
+      emit(SessionFailure(error: 'Account error'));
     }else {
       List<int> seats = [];
       for(int i=0;i<event.seats.length; i++){
@@ -40,12 +40,9 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       }
       final book = await _movieRepository.bookSeatsForMovie(accessToken, event.session.id, seats);
       if (book["success"] == false){
-        print(false);
-        print(1111);
-        print(book);
-        emit(SessionFailure());
+
+        emit(SessionFailure(error: book["data"]));
       }else{
-        print(true);
         emit(SessionBook());
       }
     }
@@ -55,7 +52,7 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
     print("buy");
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(SessionFailure());
+      emit(SessionFailure(error:"Account error"));
     }else {
       List<int> seats = [];
       for(int i=0;i<event.seats.length; i++){
@@ -73,7 +70,7 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
       print(buy);
 
       if (buy["success"] == false){
-        emit(SessionFailure());
+        emit(SessionFailure(error: buy["data"]));
       }else{
         emit(BuySuccessful());
       }
@@ -85,14 +82,14 @@ class SessionBloc extends Bloc<SessionEvent,SessionState>{
   void _getSession(GetSessionEvent event, Emitter<SessionState> emit) async{
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(SessionFailure());
+      emit(SessionFailure(error:"Account error"));
     }else {
       final sessionResponse = await _movieRepository.getSession(accessToken, event.sessionId);
 
 
       if (sessionResponse["success"] == false){
         print(false);
-        emit(SessionFailure());
+        emit(SessionFailure(error: sessionResponse["data"]));
       }else{
         final session = Session.fromJson(sessionResponse["data"]);
         emit(SessionObject(session: session));

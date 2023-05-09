@@ -17,7 +17,10 @@ class ProfileInformation extends ProfileState{
   ProfileInformation({required this.user});
 }
 
-class ProfileFailure extends ProfileState{}
+class ProfileFailure extends ProfileState{
+  final String error;
+  ProfileFailure({required this.error});
+}
 
 class ProfileInformationTickets extends ProfileState {
   final List<Ticket> tickets;

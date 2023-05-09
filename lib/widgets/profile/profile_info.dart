@@ -13,38 +13,51 @@ class ProfileInformationPage extends StatelessWidget {
   final ProfileBloc profileBloc;
 
   ProfileInformationPage(
-      {super.key, required this.state, required this.authBloc, required this.profileBloc});
+      {super.key,
+      required this.state,
+      required this.authBloc,
+      required this.profileBloc});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-            child: Column(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
           children: [
-            SizedBox(height:200),
+            const SizedBox(height: 200),
             Text(
               'Привіт ${state.user?.name}',
-              style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w500),
             ),
-            SizedBox(height:150),
+            const SizedBox(height: 150),
             ElevatedButton(
-                onPressed: () async {
-                  Navigator.pushNamed(context, '/tickets', );
-                },
-              style: ElevatedButton.styleFrom(fixedSize: Size(300, 40),backgroundColor: Colors.deepPurpleAccent),
-                child: Text('Переглянути куплені квитки'),
+              onPressed: () async {
+                Navigator.pushNamed(
+                  context,
+                  '/tickets',
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                  fixedSize: Size(300, 40),
+                  backgroundColor: Colors.deepPurpleAccent),
+              child: Text('Переглянути куплені квитки'),
             ),
-            SizedBox(height:100),
+            const SizedBox(height: 100),
             ElevatedButton(
-                onPressed: () {
-                  authBloc.add(RemoveUserEvent());
-                },
-                child: Text('Вийти з профілю'),
-            style:ElevatedButton.styleFrom( backgroundColor: Colors.deepPurpleAccent),
+              onPressed: () {
+                authBloc.add(RemoveUserEvent());
+              },
+              child: const Text('Вийти з профілю'),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent),
             ),
-
           ],
-        )));
+        ),
+      ),
+    );
   }
 }

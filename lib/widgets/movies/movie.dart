@@ -58,8 +58,10 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                       onPressed: () {
                         setState(() {
                           cIndex = index;
+
                         });
                         movieBloc.add(GetMoviesEvent(date: dates[index]));
+
                       },
                       child: Date(
                         dateTime: dates[index],
@@ -73,9 +75,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
           BlocConsumer(
               bloc: movieBloc,
               builder: (context, state) {
-                print(999);
-                return state is MovieInitial
-                    ? Expanded(child:Circular())
+                return state is MovieFailure? HomePage(authBloc: AuthBloc())
                     : state is MovieSuccessful
                         ? Expanded(
                             child: ListView.builder(
@@ -101,7 +101,7 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
                               itemCount: state.movies.length,
                             ),
                           )
-                        : Text('Error');
+                        :Expanded(child:Circular());
               },
               listener: (context, state) {}),
         ],

@@ -1,4 +1,6 @@
 import 'package:final_project/bloc/profile/profile_event.dart';
+import 'package:final_project/widgets/movies/movie_navigator.dart';
+import 'package:final_project/widgets/profile/profile_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -40,7 +42,12 @@ class _ProfileInformationTicketsPageState
     return Container(
       child: BlocConsumer(
         bloc: profileBloc,
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is ProfileFailure){
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
         builder: (context, state) {
           return state is ProfileInitial
               ? Circular()
@@ -52,15 +59,14 @@ class _ProfileInformationTicketsPageState
                           Center(
                             child: Column(
                               children: [
-                                SizedBox(height: 20),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pushNamed(context, '/');
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     'Повернутись у профіль',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.deepPurple,
                                     ),
                                   ),
                                 ),
@@ -69,7 +75,7 @@ class _ProfileInformationTicketsPageState
                                   'Ваші квитки',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 24,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.w400),
                                 ),
                                 for (int i = 0; i < state.tickets.length; i++)
@@ -89,7 +95,9 @@ class _ProfileInformationTicketsPageState
                                             color: Colors.black,
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(12.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0,
+                                                horizontal: 20.0),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -102,32 +110,38 @@ class _ProfileInformationTicketsPageState
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '${state.tickets[i].name}',
-                                                      style: TextStyle(
-                                                          color: Colors.white),
+                                                      state.tickets[i].name,
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                     ),
                                                     Text(
                                                       '${state.tickets[i].date.day.toString().padLeft(2, '0')}.${state.tickets[i].date.month.toString().padLeft(2, '0')}',
-                                                      style: TextStyle(
-                                                          color: Colors.white),
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                          FontWeight.w400,),
                                                     ),
                                                   ],
                                                 ),
                                                 RepaintBoundary(
                                                   key: _renderObjectKey,
                                                   child: QrImage(
-                                                    data: state.tickets[i].toString(),
+                                                    data: state.tickets[i]
+                                                        .toString(),
                                                     version: QrVersions.auto,
                                                     gapless: false,
-                                                    size: 200,
-
+                                                    size: 100,
                                                   ),
                                                 ),
                                                 ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
                                                           padding:
-                                                              EdgeInsets.all(0),
+                                                              const EdgeInsets.all(8.0),
                                                           backgroundColor:
                                                               Colors
                                                                   .deepPurple),
@@ -135,7 +149,7 @@ class _ProfileInformationTicketsPageState
                                                     createPdf(state.tickets[i],
                                                         _renderObjectKey);
                                                   },
-                                                  child: Text('Переглянути'),
+                                                  child: const Text('Переглянути'),
                                                 ),
                                               ],
                                             ),
@@ -150,7 +164,7 @@ class _ProfileInformationTicketsPageState
                         ],
                       ),
                     )
-                  : Text('Error');
+                  : MovieNavigator();
         },
       ),
     );

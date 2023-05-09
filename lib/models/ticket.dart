@@ -27,6 +27,6 @@ class Ticket {
 
   @override
   String toString() {
-    return '$id$movieId$date$rowIndex$seatIndex';
+    return '$id$movieId$rowIndex$seatIndex';
   }
 }

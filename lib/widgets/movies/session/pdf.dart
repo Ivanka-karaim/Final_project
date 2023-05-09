@@ -85,7 +85,7 @@ Future<void> createPdf(Ticket ticket, final key) async {
   final qrImage = PdfBitmap(pngBytes as List<int>);
 
   page.graphics
-      .drawImage(qrImage, Rect.fromLTWH(imageX+50, imageY+160,qrImage.width+0.0, qrImage.height+0.0 ));
+      .drawImage(qrImage, const Rect.fromLTWH(imageX+50, imageY+160,200, 150 ));
 
   List<int> bytes = await document.save();
   document.dispose();

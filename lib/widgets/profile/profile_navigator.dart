@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class ProfileNavigator extends StatelessWidget{
   final AuthBloc authBloc;
+
   const ProfileNavigator({super.key, required this.authBloc});
 
   @override
@@ -16,7 +17,7 @@ class ProfileNavigator extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => ProfilePage(authBloc: authBloc,),
+        '/': (context) => ProfilePage(authBloc: authBloc),
         '/tickets' : (context) => ProfileInformationTicketsPage( ),
       },
     );

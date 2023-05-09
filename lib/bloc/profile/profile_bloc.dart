@@ -22,11 +22,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
   void _getUser(GetUserEvent event, Emitter<ProfileState> emit) async{
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(ProfileFailure());
+      emit(ProfileFailure(error:'Account error'));
     }else {
       final user = await _authorizationRepository.getUser(accessToken);
       if (user["success"] == false){
-        emit(ProfileFailure());
+        emit(ProfileFailure(error: user["data"]));
       }else{
         emit(ProfileInformation(user:User.fromJson(user["data"] as Map<String, dynamic>)));
       }
@@ -37,11 +37,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(ProfileFailure());
+      emit(ProfileFailure(error:'Account error'));
     }else {
       final userTickets = await _authorizationRepository.getUserTickets(accessToken);
       if (userTickets["success"] == false){
-        emit(ProfileFailure());
+        emit(ProfileFailure(error: userTickets["data"]));
       }else{
 
         List<Ticket> tickets = [];
@@ -49,13 +49,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
           final ticket = Ticket.fromJson(userTickets["data"][i]);
           tickets.add(ticket);
         }
-        print(tickets.length);
         List<Ticket> ticketsFilter = tickets.where((ticket) => ticket.date.isAfter(DateTime.now())).toList();
-        print(ticketsFilter.length);
         ticketsFilter.sort((a, b)=>a.date.compareTo(b.date));
-        print(ticketsFilter.length);
         emit(ProfileInformationTickets(tickets: ticketsFilter));
-        print(state);
+
       }
     }
   }

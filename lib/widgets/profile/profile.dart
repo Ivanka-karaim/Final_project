@@ -15,6 +15,7 @@ import '../circular.dart';
 class ProfilePage extends StatefulWidget {
   final AuthBloc authBloc;
 
+
   const ProfilePage({super.key, required this.authBloc});
 
   @override
@@ -39,7 +40,12 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
       child: BlocConsumer(
         bloc: profileBloc,
-        listener: (BuildContext context, Object? state) {},
+        listener: (BuildContext context, Object? state) {
+          if (state is ProfileFailure){
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
         builder: (BuildContext context, state) {
           return state is ProfileFailure
               ? HomePage(authBloc: widget.authBloc)

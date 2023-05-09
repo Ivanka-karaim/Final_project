@@ -14,6 +14,7 @@ import '../../bloc/profile/profile_bloc.dart';
 
 class HomePage extends StatelessWidget {
   final AuthBloc authBloc;
+
   const HomePage({super.key, required this.authBloc});
 
 

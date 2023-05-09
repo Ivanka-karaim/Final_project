@@ -20,7 +20,10 @@ class SessionObject extends SessionState{
   SessionObject({required this.session});
 }
 
-class SessionFailure extends SessionState{}
+class SessionFailure extends SessionState{
+  final String error;
+  SessionFailure({required this.error});
+}
 
 class SeatsSuccessful extends SessionState{}
 

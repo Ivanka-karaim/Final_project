@@ -22,4 +22,7 @@ class MovieSuccessfulWithSessions extends MovieState {
   MovieSuccessfulWithSessions({required this.movie, required this.sessions});
 }
 
-class MovieFailure extends MovieState{}
+class MovieFailure extends MovieState{
+  final String error;
+  MovieFailure({required this.error});
+}

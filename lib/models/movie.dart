@@ -1,14 +1,14 @@
 class Movie{
-  final int id;
-  final String name;
-  final int age;
+   final int id;
+   final String name;
+   final int age;
   final String trailer;
-  final String image;
-  final String smallImage;
-  final String originalName;
-  final int duration;
+   final String image;
+   final String smallImage;
+   final String originalName;
+   final int duration;
   final String language;
-  final String rating;
+   final String rating;
   final String country;
   final String genre;
   final String plot;

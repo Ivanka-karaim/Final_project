@@ -21,22 +21,24 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
   void _getMovies(GetMoviesEvent event, Emitter<MovieState> emit) async {
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(MovieFailure());
+      emit(MovieFailure(error:"Account error"));
     } else {
       String date = '${event.date.year}-${event.date.month}-${event.date.day}';
       final moviesBody = await _movieRepository.getAllMoviesDate(
           accessToken, date);
       if (moviesBody["success"] == false) {
-        emit(MovieFailure());
+        emit(MovieFailure(error: moviesBody["data"]));
       } else {
+
         List<Movie> movies = [];
         for (int i = 0; i < moviesBody["data"].length; i++) {
+
           movies.add(Movie.fromJson(moviesBody["data"][i]));
         }
         movies.sort((a, b) => b.rating.compareTo(a.rating));
 
         emit(MovieSuccessful(movies: movies, date: event.date));
-        print(state);
+
       }
     }
   }
@@ -44,15 +46,14 @@ class MovieBloc extends Bloc<MovieEvent, MovieState>{
   void _getMovieWithSessions(GetMovieWithSessions event, Emitter<MovieState> state) async{
     final accessToken = await _tokenLocalDatasource.getToken();
     if (accessToken == null) {
-      emit(MovieFailure());
+      emit(MovieFailure(error: "Account error"));
     } else {
       String date = '${event.date.year}-${event.date.month}-${event.date.day}';
       final sessionsBody = await _movieRepository.getSessionsMovieDate(accessToken, date, event.movie.id);
       if (sessionsBody["success"] == false) {
-        emit(MovieFailure());
+        emit(MovieFailure(error: sessionsBody["data"]));
       } else {
         final sessionsApi = sessionsBody["data"];
-        print(sessionsApi);
         List<Session> sessions = [];
         for (int i = 0; i < sessionsApi.length; i++) {
           sessions.add(Session.fromJson(sessionsApi[i]));

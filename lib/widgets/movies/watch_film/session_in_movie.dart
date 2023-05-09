@@ -30,7 +30,7 @@ class SessionInMovie extends StatelessWidget {
           style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
           child: Container(
             height: 50,
-            width: 300,
+            width: 400,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
