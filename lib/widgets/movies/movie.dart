@@ -21,21 +21,15 @@ class MoviePage extends StatefulWidget {
 }
 
 class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
-  late int cIndex;
-  List<DateTime> dates = [];
   late final MovieBloc movieBloc;
 
   @override
   void initState() {
     super.initState();
-    DateTime now = DateTime.now();
-    dates.add(now);
-    for (int i = 0; i < 7; i++) {
-      dates.add(dates[i].add(Duration(days: 1)));
-    }
+
     movieBloc = MovieBloc();
-    movieBloc.add(GetMoviesEvent(date: now));
-    cIndex = 0;
+    movieBloc.add(GetMoviesEvent(date: DateTime.now()));
+
   }
 
 
@@ -47,31 +41,6 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          SizedBox(
-            height: 100,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextButton(
-                      onPressed: () {
-                        setState(() {
-                          cIndex = index;
-
-                        });
-                        movieBloc.add(GetMoviesEvent(date: dates[index]));
-
-                      },
-                      child: Date(
-                        dateTime: dates[index],
-                        isThisDate: index == cIndex,
-                      ),
-                    );
-                  },
-                  itemCount: 7),
-            ),
-          ),
           BlocConsumer(
               bloc: movieBloc,
               builder: (context, state) {

@@ -17,9 +17,7 @@ class Input extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
-
         controller: controller,
-        keyboardType: TextInputType.phone,
         style: const TextStyle(
           color: Colors.white,
         ),

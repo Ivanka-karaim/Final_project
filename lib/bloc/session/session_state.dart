@@ -29,3 +29,8 @@ class SeatsSuccessful extends SessionState{}
 
 class BuySuccessful extends SessionState{}
 
+class BuyError extends SessionState{
+  final String error;
+  BuyError({required this.error});
+}
+

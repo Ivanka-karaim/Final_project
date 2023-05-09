@@ -3,6 +3,8 @@ import 'package:final_project/widgets/movies/watch_film/session_in_movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../bloc/auth/auth_bloc.dart';
@@ -13,6 +15,7 @@ import '../../../models/movie.dart';
 import '../../circular.dart';
 import '../movie.dart';
 import 'age.dart';
+import 'date.dart';
 
 class WatchMovieWithSessions extends StatefulWidget {
   final Movie movie;
@@ -31,12 +34,25 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
       TextStyle(color: Colors.deepPurple, fontSize: 15);
   final TextStyle styleMovieText = TextStyle(color: Colors.white, fontSize: 15);
   // late YoutubePlayerController controller;
+  late int cIndex;
+  List<DateTime> dates = [];
 
   @override
   void initState() {
     super.initState();
     movieBloc = MovieBloc();
     movieBloc.add(GetMovieWithSessions(date: widget.date, movie: widget.movie));
+    DateTime now = DateTime.now();
+    dates.add(now);
+    for (int i = 0; i < 7; i++) {
+      dates.add(dates[i].add(Duration(days: 1)));
+    }
+    if ( widget.date.day>= now.day) {
+      cIndex = widget.date.day - now.day;
+    }else {
+      cIndex = now.day-widget.date.day;
+    }
+    // cIndex = 0;
     // print(9999999);
     // final url = widget.movie.trailer;
     // final videoId = YoutubePlayer.convertUrlToId(url);
@@ -52,15 +68,11 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
 
   @override
   void deactivate(){
-    // controller.pause();
     super.deactivate();
-
-
   }
 
   @override
   void dispose(){
-    // controller.dispose();
     super.dispose();
   }
 
@@ -194,6 +206,14 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
                                 ],
                               ),
                               SizedBox(height: 30),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+                                onPressed: () {
+                                    _launchURL(widget.movie.trailer);
+                                  },
+                                      child: Text('Переглянути трейлер'),
+                                        ),
+                              SizedBox(height: 30),
                               // YoutubePlayerBuilder(
                               //   player: YoutubePlayer(controller: controller),
                               //   builder: (context, player) =>   Container(
@@ -204,12 +224,35 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
                               //
                               //
                               // ),
-                              Text(
-                                state.sessions.length == 0
-                                    ? ''
-                                    : 'Сеанси на ${state.sessions[0].date.day.toString().padLeft(2, '0')}.${state.sessions[0].date.month.toString().padLeft(2, '0')}',
-                                style: const TextStyle(
+                              const Text(
+                                'Сеанси',
+                                style: TextStyle(
                                     color: Colors.white, fontSize: 22),
+                              ),
+                              SizedBox(
+                                height: 80,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              cIndex = index;
+
+                                            });
+                                            movieBloc.add(GetMovieWithSessions(date: dates[index], movie: widget.movie));
+
+                                          },
+                                          child: Date(
+                                            dateTime: dates[index],
+                                            isThisDate: index == cIndex,
+                                          ),
+                                        );
+                                      },
+                                      itemCount: 7),
+                                ),
                               ),
                               for (int i = 0; i < state.sessions.length; i++)
                                 SessionInMovie(
@@ -227,5 +270,14 @@ class _WatchMovieWithSessionsState extends State<WatchMovieWithSessions> {
       },
       listener: (BuildContext context, Object? state) {},
     );
+  }
+
+  void _launchURL(String url) async {
+    await launchUrl(Uri.parse(url));
+    // if (await canLaunch(url)) {
+    //   await launch(url);
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
   }
 }

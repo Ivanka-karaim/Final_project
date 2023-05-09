@@ -1,6 +1,7 @@
 import 'package:final_project/bloc/profile/profile_event.dart';
 import 'package:final_project/widgets/movies/movie_navigator.dart';
 import 'package:final_project/widgets/profile/profile_navigator.dart';
+import 'package:final_project/widgets/profile/qr_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -28,7 +29,7 @@ class ProfileInformationTicketsPage extends StatefulWidget {
 class _ProfileInformationTicketsPageState
     extends State<ProfileInformationTicketsPage> {
   late final ProfileBloc profileBloc;
-  final GlobalKey _renderObjectKey = GlobalKey();
+  
 
   @override
   void initState() {
@@ -127,30 +128,7 @@ class _ProfileInformationTicketsPageState
                                                     ),
                                                   ],
                                                 ),
-                                                RepaintBoundary(
-                                                  key: _renderObjectKey,
-                                                  child: QrImage(
-                                                    data: state.tickets[i]
-                                                        .toString(),
-                                                    version: QrVersions.auto,
-                                                    gapless: false,
-                                                    size: 100,
-                                                  ),
-                                                ),
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          padding:
-                                                              const EdgeInsets.all(8.0),
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .deepPurple),
-                                                  onPressed: () {
-                                                    createPdf(state.tickets[i],
-                                                        _renderObjectKey);
-                                                  },
-                                                  child: const Text('Переглянути'),
-                                                ),
+                                                QrAndButton(ticket: state.tickets[i])
                                               ],
                                             ),
                                           ),

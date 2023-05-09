@@ -29,8 +29,8 @@ class Place extends StatelessWidget {
           padding: EdgeInsets.all(0.0),
           margin: EdgeInsets.all(4.0),
           child: Container(
-            width: 30,
-            height: 30,
+            width: 25,
+            height: 25,
             child: seat.isAvailable
                 ? ElevatedButton(
                     onPressed: () {
@@ -45,7 +45,7 @@ class Place extends StatelessWidget {
                         padding: const EdgeInsets.all(0.0),),
                     child: Text(
                       '${seat.index}',
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 12),
                     ),
                   )
                 : Container(

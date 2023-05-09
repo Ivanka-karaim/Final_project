@@ -18,7 +18,7 @@ class Date extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 90,
+        width: 70,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.deepPurple, width: 3),
           borderRadius: BorderRadius.circular(10),
@@ -32,7 +32,7 @@ class Date extends StatelessWidget {
                 '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 15,
                   decoration: isThisDate
                       ? TextDecoration.underline
                       : TextDecoration.none,
@@ -44,7 +44,7 @@ class Date extends StatelessWidget {
                 '${map[dateTime.weekday]}',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 14,
                     decoration: isThisDate
                         ? TextDecoration.underline
                         : TextDecoration.none),

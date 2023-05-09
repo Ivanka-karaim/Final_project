@@ -48,7 +48,7 @@ class SessionInMovie extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('${session.date.hour}:${session.date.minute}'),
+                    Text('${session.date.hour.toString().padLeft(2, '0')}:${session.date.minute.toString().padLeft(2, '0')}'),
                     Text('${session.minPrice}+'),
                   ],
                 ),
