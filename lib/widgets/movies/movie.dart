@@ -1,5 +1,6 @@
 import 'package:final_project/bloc/favourite/favourite_bloc.dart';
 import 'package:final_project/bloc/favourite/favourite_event.dart';
+import 'package:final_project/bloc/favourite/favourite_state.dart';
 import 'package:final_project/bloc/movie/movie_event.dart';
 import 'package:final_project/bloc/movie/movie_state.dart';
 import 'package:final_project/widgets/movies/watch_film/date.dart';
@@ -16,7 +17,7 @@ import '../circular.dart';
 import '../home/home.dart';
 
 class MoviePage extends StatefulWidget {
-  // List<Movie> movies;
+
   MoviePage({super.key});
 
   @override
@@ -42,12 +43,16 @@ class _MoviePageState extends State<MoviePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         children: [
+          SizedBox(height:30),
+          IconButton(onPressed: (){
+            setState(() {
+              favouriteBloc.add(GetFavouriteMovieEvent());
+            });
+          }, icon: Icon(Icons.update_rounded, color: Colors.deepPurple,),),
           BlocConsumer(
               bloc: movieBloc,
               builder: (context, state) {

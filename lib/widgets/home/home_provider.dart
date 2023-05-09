@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/home/home_state.dart';
 import '../app_bar.dart';
+import '../favourite_movies.dart';
 import '../movies/movie_navigator.dart';
 
 
@@ -40,17 +41,18 @@ class _HomeProviderState extends State<HomeProvider> {
           },
           builder: (context, state) {
             return Scaffold(
-              drawer: HomeDrawer(homeBloc: homeBloc,),
+              drawer: HomeDrawer(homeBloc: homeBloc,authBloc: widget.authBloc,),
               appBar: CustomAppBar(),
               body: SafeArea(
                 top: false,
                 // controller: tabController,
-                child: IndexedStack(
+                child:
+                IndexedStack(
                   index: state.cIndex,
                   children:  [
                     MovieNavigator(),
                     ProfileNavigator(authBloc: widget.authBloc),
-                    // FavouriteMovies(),
+                    FavouriteMovies(),
                   ],
                 ),
               ),
