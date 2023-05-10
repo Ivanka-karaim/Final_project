@@ -4,8 +4,9 @@ class Input extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool obscure;
+  bool isDate;
 
-  const Input({super.key, required this.hint, required this.controller, required this.obscure});
+  Input({super.key, required this.hint, required this.controller, required this.obscure, this.isDate=false});
 
 
 
@@ -20,6 +21,16 @@ class Input extends StatelessWidget {
       child: TextFormField(
         obscureText: obscure,
         controller: controller,
+
+        onChanged: (value) {
+          if (isDate) {
+            if (value.length == 2 && !controller.text.endsWith('/')) {
+              controller.text += '/';
+              controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length));
+            }
+          }
+        },
         style: const TextStyle(
           color: Colors.white,
         ),

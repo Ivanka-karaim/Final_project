@@ -87,6 +87,7 @@ class _SessionBuyState extends State<SessionBuy> {
               ? const Circular()
               : state is SessionBook || state is BuyError
                   ? Scaffold(
+                      resizeToAvoidBottomInset: false,
                       backgroundColor: Colors.black,
                       body: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -187,6 +188,7 @@ class _SessionBuyState extends State<SessionBuy> {
                                   controller: _controllerExpirationDate,
                                   hint: '12/24',
                                   obscure: false,
+                                  isDate: true,
                                 ),
                                 const SizedBox(height: 20),
                                 Text(
