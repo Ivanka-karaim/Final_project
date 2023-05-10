@@ -4,10 +4,12 @@ import 'package:final_project/features/login/bloc/sign_in/sign_in_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../home/bloc/auth/auth_bloc.dart';
 import 'login.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final AuthBloc authBloc;
+  const LoginScreen({super.key, required this.authBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class LoginScreen extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginFormWidget(),
+        home: LoginFormWidget(authBloc:authBloc),
       ),
     );
   }

@@ -1,5 +1,6 @@
 
 
+import 'package:final_project/features/home/bloc/auth/auth_bloc.dart';
 import 'package:final_project/features/login/presentation/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,8 @@ import 'input.dart';
 
 
 class LoginFormWidget extends StatefulWidget {
-  const LoginFormWidget({super.key});
+  final AuthBloc authBloc;
+  const LoginFormWidget({super.key, required this.authBloc});
 
   @override
   State<LoginFormWidget> createState() => _LoginFormWidgetState();
@@ -60,7 +62,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 BlocListener<SignInBloc, SignInState>
                   (listener: (context, state){
                     if (state is SignInPhoneNumberSuccessful){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const OtpWidget()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> OtpWidget(authBloc: widget.authBloc)));
 
                     } else if(state is SignInPhoneNumberError) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error')));

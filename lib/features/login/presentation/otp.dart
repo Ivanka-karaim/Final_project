@@ -1,3 +1,5 @@
+import 'package:final_project/features/home/bloc/auth/auth_bloc.dart';
+import 'package:final_project/features/home/bloc/auth/auth_event.dart';
 import 'package:final_project/features/login/bloc/sign_in/sign_in_bloc.dart';
 import 'package:final_project/features/login/bloc/sign_in/sign_in_event.dart';
 import 'package:final_project/features/login/bloc/sign_in/sign_in_state.dart';
@@ -9,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtpWidget extends StatefulWidget {
-  const OtpWidget({super.key});
+  final AuthBloc authBloc;
+  const OtpWidget({super.key, required this.authBloc});
 
   @override
   State<OtpWidget> createState() => _OtpWidgetState();
@@ -60,11 +63,21 @@ class _OtpWidgetState extends State<OtpWidget> {
                 ),
                 BlocListener<SignInBloc, SignInState>(
                   listener: (context, state) {
-                    if (state is SignInSuccessful) {
-                      Navigator.push(
+                    if (state is SignInSuccessful)
+                    {
+                      widget.authBloc.add(CheckUserEvent());
+
+                      // Navigator.pop(context);
+                      // Navigator.popUntil(context, (route) => route.isFirst);
+                      // Navigator.of(context).popUntil((route) => route.isFirst);
+
+
+                      // Navigator.pop(context);
+                      // Navigator.of(context).popUntil((route) => false);
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyApp()));
+                              builder: (conteRxt) => const MyApp()));
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Welcome')));
                     } else if (state is SignInPasswordError) {

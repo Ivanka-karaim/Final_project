@@ -39,14 +39,14 @@ class _MyAppState extends State<MyApp> {
     return BlocConsumer(
         bloc: authBloc,
         builder: (context, state) {
-          return state is AuthInitial? const MaterialApp(home:Circular()):state is AuthSuccessful
-              ? HomePage(
-                  authBloc: authBloc,
-                )
-              : const LoginScreen();
+          return state is AuthInitial
+              ? const MaterialApp(home: Circular())
+              : state is AuthSuccessful
+                  ? HomePage(
+                      authBloc: authBloc,
+                    )
+                  : LoginScreen(authBloc: authBloc);
         },
-        listener: (context, state) {
-
-        });
+        listener: (context, state) {});
   }
 }
