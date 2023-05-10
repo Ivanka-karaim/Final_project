@@ -18,21 +18,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>{
   }
 
   void _saveUser(SaveUserEvent event, Emitter<AuthState> emit) async{
-
     await _tokenLocalDatasource.saveToken(event.accessToken as String);
     emit(AuthSuccessful());
   }
 
 
   void _userCheck(CheckUserEvent event, Emitter<AuthState> emit) async{
-
-    await _tokenLocalDatasource.getToken();
-    emit(AuthSuccessful());
+    if (await _tokenLocalDatasource.getToken() == null){
+      emit(AuthFailure());
+    }else {
+      emit(AuthSuccessful());
+    }
 
   }
 
   void _removeUser(RemoveUserEvent event, Emitter<AuthState> emit) async{
-
     await _tokenLocalDatasource.deleteToken();
     emit(AuthFailure());
   }

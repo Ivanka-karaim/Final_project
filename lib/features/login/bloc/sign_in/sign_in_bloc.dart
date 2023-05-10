@@ -6,7 +6,7 @@ import 'sign_in_state.dart';
 import '../../../../data/repository/authorization.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  late final String phoneNumber;
+  late String phoneNumber;
   final AuthorizationRepository _authorizationRepository;
   final DatasourceImpl _tokenLocalDatasource;
 

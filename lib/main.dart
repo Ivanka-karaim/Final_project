@@ -1,6 +1,7 @@
 import 'package:final_project/features/home/bloc/auth/auth_state.dart';
 import 'package:final_project/data/datasource/token_local_data_source.dart';
 import 'package:final_project/features/home/presentation/home.dart';
+import 'package:final_project/features/home/presentation/home_general/circular.dart';
 import 'package:final_project/features/login/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,12 +39,14 @@ class _MyAppState extends State<MyApp> {
     return BlocConsumer(
         bloc: authBloc,
         builder: (context, state) {
-          return state is AuthSuccessful
+          return state is AuthInitial? const MaterialApp(home:Circular()):state is AuthSuccessful
               ? HomePage(
                   authBloc: authBloc,
                 )
               : const LoginScreen();
         },
-        listener: (context, state) {});
+        listener: (context, state) {
+
+        });
   }
 }
